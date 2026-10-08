@@ -1,0 +1,60 @@
+﻿import Attempt from '../models/Attempt.js';
+
+export const getMyAttempts = async (userId, page = 1, limit = 10) => {
+  const pageNum = parseInt(page, 10);
+  const limitNum = parseInt(limit, 10);
+  const skip = (pageNum - 1) * limitNum;
+
+  const attempts = await Attempt.find({ userId })
+    .sort({ submittedAt: -1 })
+    .skip(skip)
+    .limit(limitNum)
+    .populate('topicId', 'name');
+
+  const total = await Attempt.countDocuments({ userId });
+
+  return {
+    attempts,
+    total,
+    page: pageNum,
+    pages: Math.ceil(total / limitNum)
+  };
+};
+
+export const getMyStats = async (userId) => {
+  const attempts = await Attempt.find({ userId });
+  
+  const totalAttempts = attempts.length;
+  if (totalAttempts === 0) {
+    return { totalAttempts: 0, averageScore: 0, accuracyPerTopic: [] };
+  }
+
+  let totalScore = 0;
+  let totalQuestions = 0;
+  const topicStats = {};
+
+  attempts.forEach(a => {
+    totalScore += a.score;
+    totalQuestions += a.total;
+
+    const tId = a.topicId ? a.topicId.toString() : 'mixed';
+    if (!topicStats[tId]) {
+      topicStats[tId] = { correct: 0, total: 0 };
+    }
+    topicStats[tId].correct += a.score;
+    topicStats[tId].total += a.total;
+  });
+
+  const averageScore = totalScore / totalAttempts;
+
+  const accuracyPerTopic = Object.keys(topicStats).map(topicId => ({
+    topicId,
+    accuracy: topicStats[topicId].total > 0 ? (topicStats[topicId].correct / topicStats[topicId].total) * 100 : 0
+  }));
+
+  return {
+    totalAttempts,
+    averageScore,
+    accuracyPerTopic
+  };
+};
