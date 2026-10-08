@@ -195,4 +195,3 @@ All responses use the shape `{ success, data, message }`.
 Planned: backend on Render or Railway, frontend on Vercel or Netlify, database on MongoDB Atlas.
 
 **Live demo:** _coming soon_
-

@@ -1,4 +1,4 @@
-﻿import { GoogleGenAI } from '@google/genai';
+import { GoogleGenAI } from '@google/genai'; // nodemon restart trigger
 import { getGenerationPrompt, getVerificationPrompt } from '../prompts/questionGeneration.js';
 import { validateQuestion } from './questionValidator.js';
 import Question from '../models/Question.js';
@@ -35,7 +35,7 @@ export const generateQuestions = async (data) => {
   if (!topic) throw new Error('Topic not found');
 
   const ai = getAiClient();
-  const modelName = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+  const modelName = process.env.GEMINI_MODEL || 'gemini-3.5-flash';
   const prompt = getGenerationPrompt(topic.name, subtopic, difficulty, count);
 
   let generatedData = null;
@@ -47,8 +47,7 @@ export const generateQuestions = async (data) => {
     try {
       const response = await ai.models.generateContent({
         model: modelName,
-        contents: prompt,
-        config: { responseMimeType: "application/json" }
+        contents: prompt
       });
       generatedData = parseJson(response.text);
       if (!Array.isArray(generatedData)) throw new Error('Output is not an array');
@@ -82,8 +81,7 @@ export const generateQuestions = async (data) => {
         const verifyPrompt = getVerificationPrompt(q.text, q.options);
         const vResponse = await ai.models.generateContent({
           model: modelName,
-          contents: verifyPrompt,
-          config: { responseMimeType: "application/json" }
+          contents: verifyPrompt
         });
         const vResult = parseJson(vResponse.text);
         if (vResult.correctIndex !== q.correctIndex) {

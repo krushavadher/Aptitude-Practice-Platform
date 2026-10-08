@@ -1,4 +1,4 @@
-﻿import { getLeaderboard } from '../src/services/leaderboardService.js';
+import { getLeaderboard } from '../src/services/leaderboardService.js';
 import Attempt from '../src/models/Attempt.js';
 import User from '../src/models/User.js';
 import mongoose from 'mongoose';
@@ -18,11 +18,17 @@ describe('Leaderboard logic', () => {
     await Attempt.create({ testId: t, userId: u1._id, score: 9, total: 10, timeTakenSec: 200, submittedAt: now });
     await Attempt.create({ testId: t, userId: u2._id, score: 9, total: 10, timeTakenSec: 150, submittedAt: now });
 
-    const result = await getLeaderboard(u1._id, { period: 'all', limit: 10 });
-    expect(result.leaderboard.length).toBe(2);
+    const result = await getLeaderboard(u1._id, { period: 'all', limit: 1 });
+    // u2 should be top 1
+    expect(result.leaderboard.length).toBe(1);
     expect(result.leaderboard[0].name).toBe('U2');
-    expect(result.leaderboard[1].name).toBe('U1');
-    expect(result.leaderboard[1].score).toBe(9);
+    expect(result.leaderboard[0].email).toBeUndefined(); // no email
+    
+    // u1 should be outside top 1, but still have their rank returned
+    expect(result.currentUser.rank).toBe(2);
+    expect(result.currentUser.name).toBe('U1');
+    expect(result.currentUser.email).toBeUndefined();
+    expect(result.currentUser.score).toBe(9);
   });
 
   it('filters by weekly', async () => {
