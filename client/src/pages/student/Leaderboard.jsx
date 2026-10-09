@@ -49,9 +49,9 @@ export default function Leaderboard() {
   };
 
   const getAccColor = (acc) => {
-    if (acc > 90) return 'text-success-text';
-    if (acc >= 80) return 'text-accent';
-    return 'text-[#8B5CF6]';
+    if (acc > 90) return 'text-[color:var(--primary)]';
+    if (acc >= 80) return 'text-[color:var(--teal)]';
+    return 'text-[color:var(--text)]';
   };
 
   const getRankBg = (rank) => {
@@ -69,11 +69,11 @@ export default function Leaderboard() {
       
       {/* Banner */}
       <GlassCard className="relative overflow-hidden border-none shadow-md">
-        <div className="absolute inset-0 bg-gradient-to-r from-accent/10 via-[#06B6D4]/10 to-transparent opacity-60"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[color:var(--primary)]/10 via-[color:var(--teal)]/10 to-transparent opacity-60"></div>
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 p-4">
           <div>
-            <div className="flex items-center gap-2 text-[10px] font-bold tracking-widest text-accent uppercase mb-2">
-              <div className="w-2 h-2 rounded-full bg-accent"></div>
+            <div className="flex items-center gap-2 text-[10px] font-bold tracking-widest text-[color:var(--primary)] uppercase mb-2">
+              <div className="w-2 h-2 rounded-full bg-[color:var(--primary)]"></div>
               Verified Cohort Index - Standardized Percentile Engine
             </div>
             <h1 className="text-4xl font-extrabold text-primary mb-2">Leaderboard</h1>
@@ -84,13 +84,13 @@ export default function Leaderboard() {
             <div className="flex bg-glass-strong p-1 rounded-lg border border-glass-border">
               <button 
                 onClick={() => setPeriod('all')}
-                className={`flex items-center gap-2 px-4 py-1.5 text-xs font-bold rounded-md transition-colors ${period === 'all' ? 'bg-primary text-white shadow' : 'text-secondary hover:text-primary hover:bg-glass'}`}
+                className={`flex items-center gap-2 px-4 py-1.5 text-xs font-bold rounded-md transition-colors ${period === 'all' ? 'bg-[color:var(--primary)] text-white shadow' : 'text-secondary hover:text-[color:var(--primary)] hover:bg-glass'}`}
               >
                 <Globe className="w-3.5 h-3.5" /> Global
               </button>
               <button 
                 onClick={() => setPeriod('weekly')}
-                className={`flex items-center gap-2 px-4 py-1.5 text-xs font-bold rounded-md transition-colors ${period === 'weekly' ? 'bg-primary text-white shadow' : 'text-secondary hover:text-primary hover:bg-glass'}`}
+                className={`flex items-center gap-2 px-4 py-1.5 text-xs font-bold rounded-md transition-colors ${period === 'weekly' ? 'bg-[color:var(--primary)] text-white shadow' : 'text-secondary hover:text-[color:var(--primary)] hover:bg-glass'}`}
               >
                 <Calendar className="w-3.5 h-3.5" /> Weekly
               </button>
@@ -98,7 +98,7 @@ export default function Leaderboard() {
             <select 
               value={topicId}
               onChange={e => setTopicId(e.target.value)}
-              className="px-4 py-1.5 text-xs font-bold text-primary bg-glass-strong border border-glass-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent appearance-none min-w-[140px]"
+              className="px-4 py-1.5 text-xs font-bold text-primary bg-glass-strong border border-glass-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)] appearance-none min-w-[140px]"
             >
               <option value="">All Topics</option>
               {topics.map(t => <option key={t._id} value={t._id}>{t.name}</option>)}
@@ -109,26 +109,26 @@ export default function Leaderboard() {
 
       {/* User's Ranking Card */}
       {currentUser && (
-        <GlassCard className="flex flex-col lg:flex-row items-center justify-between p-6 shadow-sm border-l-4 border-l-accent overflow-hidden relative">
+        <GlassCard className="flex flex-col lg:flex-row items-center justify-between p-6 shadow-sm border-l-4 border-l-[color:var(--primary)] overflow-hidden relative">
           <div className="flex items-center gap-4 w-full lg:w-auto mb-6 lg:mb-0">
-            <div className="w-14 h-14 rounded-full bg-accent text-white flex items-center justify-center font-bold text-xl shadow-lg relative overflow-hidden">
+            <div className="w-14 h-14 rounded-full bg-[color:var(--primary)] text-white flex items-center justify-center font-bold text-xl shadow-lg relative overflow-hidden">
               {currentUser.avatar ? (
                 <img src={getImageUrl(currentUser.avatar)} alt={currentUser.name} className="w-full h-full object-cover" />
               ) : (
                 getInitials(currentUser.name)
               )}
-              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary text-white rounded-full text-[10px] flex items-center justify-center font-bold border-2 border-white z-10">
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-[color:var(--teal)] text-white rounded-full text-[10px] flex items-center justify-center font-bold border-2 border-white z-10">
                 YOU
               </div>
             </div>
             <div>
               <div className="flex items-center gap-3 mb-1">
                 <h2 className="text-xl font-bold text-primary">{currentUser.name}</h2>
-                <span className="px-2 py-0.5 bg-accent text-white text-[10px] font-bold rounded-full uppercase tracking-wider">Your Ranking</span>
+                <span className="px-2 py-0.5 bg-[color:var(--primary)] text-white text-[10px] font-bold rounded-full uppercase tracking-wider">Your Ranking</span>
               </div>
               <div className="flex items-center gap-2 text-xs text-secondary font-medium">
                 Candidate ID: {generateId(currentUser.name)} <span className="text-glass-border">•</span> 
-                <span className="flex items-center gap-1 text-success-text"><TrendingUp className="w-3 h-3" /> Top Cohort</span>
+                <span className="flex items-center gap-1 text-[color:var(--primary)]"><TrendingUp className="w-3 h-3" /> Top Cohort</span>
               </div>
             </div>
           </div>
@@ -136,7 +136,7 @@ export default function Leaderboard() {
           <div className="flex flex-wrap items-center justify-center lg:justify-end gap-8 w-full lg:w-auto">
             <div className="text-center lg:text-left">
               <div className="text-[10px] font-bold text-secondary uppercase tracking-widest mb-1">Current Rank</div>
-              <div className="text-3xl font-black text-accent">#{currentUser.rank}</div>
+              <div className="text-3xl font-black text-[color:var(--primary)]">#{currentUser.rank}</div>
             </div>
             <div className="w-px h-10 bg-glass-border hidden sm:block"></div>
             <div className="text-center lg:text-left">
@@ -146,7 +146,7 @@ export default function Leaderboard() {
             <div className="w-px h-10 bg-glass-border hidden sm:block"></div>
             <div className="text-center lg:text-left">
               <div className="text-[10px] font-bold text-secondary uppercase tracking-widest mb-1">Accuracy</div>
-              <div className="text-xl font-bold text-primary flex items-center gap-1">{Math.round((currentUser.score / currentUser.total) * 100)}% <div className="w-1.5 h-1.5 rounded-full bg-accent"></div></div>
+              <div className="text-xl font-bold text-primary flex items-center gap-1">{Math.round((currentUser.score / currentUser.total) * 100)}% <div className="w-1.5 h-1.5 rounded-full bg-[color:var(--mint)]"></div></div>
             </div>
             <div className="w-px h-10 bg-glass-border hidden sm:block"></div>
             <div className="text-center lg:text-left">
@@ -166,7 +166,7 @@ export default function Leaderboard() {
         <section>
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-bold text-primary flex items-center gap-2">
-              <Award className="w-5 h-5 text-accent" /> Benchmark Leaders
+              <Award className="w-5 h-5 text-[color:var(--primary)]" /> Benchmark Leaders
             </h2>
             <div className="text-[10px] font-bold text-secondary uppercase tracking-widest">Standardized Evaluation Set v4.2</div>
           </div>
@@ -281,8 +281,8 @@ export default function Leaderboard() {
               <Badge variant="neutral" className="text-[10px]">Ranks 1-{leaderboard.length}</Badge>
             </div>
             <div className="flex items-center gap-4 text-[10px] font-bold text-secondary uppercase tracking-wider">
-              <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-success"></div> &gt;90% Accuracy</div>
-              <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-accent"></div> 80-90% Accuracy</div>
+              <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-[color:var(--primary)]"></div> &gt;90% Accuracy</div>
+              <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-[color:var(--teal)]"></div> 80-90% Accuracy</div>
             </div>
           </div>
 
@@ -305,7 +305,7 @@ export default function Leaderboard() {
                     const isMe = currentUser && currentUser.rank === entry.rank;
                     
                     return (
-                      <tr key={entry.rank} className={`hover:bg-glass transition-colors ${isMe ? 'bg-accent/5' : ''}`}>
+                      <tr key={entry.rank} className={`hover:bg-glass transition-colors ${isMe ? 'bg-[color:var(--primary)]/5' : ''}`}>
                         <td className="p-4 flex justify-center items-center">
                           <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${getRankBg(entry.rank)}`}>
                             {entry.rank}
@@ -323,7 +323,7 @@ export default function Leaderboard() {
                           </div>
                         </td>
                         <td className="p-4">
-                          <span className="px-2.5 py-1 bg-accent/10 text-accent text-[10px] font-bold rounded-full border border-accent/20 whitespace-nowrap">
+                          <span className="px-2.5 py-1 bg-[color:var(--primary-soft)] text-[color:var(--primary)] text-[10px] font-bold rounded-full border border-[color:var(--primary-soft)] whitespace-nowrap">
                             {topicName}
                           </span>
                         </td>

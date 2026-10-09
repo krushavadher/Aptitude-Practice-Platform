@@ -67,8 +67,8 @@ function AppLayout() {
   return (
     <div className="min-h-screen flex flex-col relative z-0">
       <Navbar userRole={role} onLogout={logout} />
-      
-      <main className="flex-1 flex flex-col">
+
+      <main className="flex-1 flex flex-col pt-6 w-full max-w-[1280px] mx-auto px-6">
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Landing />} />
@@ -76,7 +76,7 @@ function AppLayout() {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
-          
+
           {/* Student Routes */}
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/topics" element={<ProtectedRoute><Topics /></ProtectedRoute>} />
@@ -87,7 +87,7 @@ function AppLayout() {
           <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
           <Route path="/leaderboard" element={<ProtectedRoute><Leaderboard /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-          
+
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
           <Route path="/admin/topics" element={<AdminRoute><AdminTopics /></AdminRoute>} />
@@ -95,14 +95,14 @@ function AppLayout() {
           <Route path="/admin/ai" element={<AdminRoute><AdminAi /></AdminRoute>} />
           <Route path="/admin/review" element={<AdminRoute><AdminReview /></AdminRoute>} />
           <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
-          
+
           {/* Fallbacks */}
           {import.meta.env.DEV && <Route path="/styleguide" element={<Styleguide />} />}
           <Route path="/forbidden" element={<Forbidden />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      
+
       <Footer />
     </div>
   );

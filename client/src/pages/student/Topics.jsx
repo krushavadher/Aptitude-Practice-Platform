@@ -14,26 +14,26 @@ const ProgressRing = ({ value }) => {
   const radius = 14;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (value / 100) * circumference;
-  
-  let colorClass = 'text-success';
+
+  let colorClass = 'text-[color:var(--primary)]';
   if (value < 60) colorClass = 'text-warning';
-  else if (value < 85) colorClass = 'text-accent';
+  else if (value < 85) colorClass = 'text-[color:var(--teal)]';
 
   return (
     <div className="relative inline-flex items-center justify-center">
       <svg className="w-10 h-10 transform -rotate-90">
         <circle className="text-glass-border" strokeWidth="2.5" stroke="currentColor" fill="transparent" r={radius} cx="20" cy="20" />
-        <circle 
-          className={colorClass} 
-          strokeWidth="2.5" 
-          strokeDasharray={circumference} 
-          strokeDashoffset={strokeDashoffset} 
-          strokeLinecap="round" 
-          stroke="currentColor" 
-          fill="transparent" 
-          r={radius} 
-          cx="20" 
-          cy="20" 
+        <circle
+          className={colorClass}
+          strokeWidth="2.5"
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          strokeLinecap="round"
+          stroke="currentColor"
+          fill="transparent"
+          r={radius}
+          cx="20"
+          cy="20"
         />
       </svg>
       <span className="absolute text-[9px] font-bold text-primary">{Math.round(value)}%</span>
@@ -63,7 +63,7 @@ export default function Topics() {
       <div className="max-w-7xl mx-auto p-4 sm:p-8 w-full">
         <Skeleton variant="card" className="h-40 mb-6" />
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[1,2,3,4,5,6].map(i => <Skeleton key={i} variant="card" className="h-64" />)}
+          {[1, 2, 3, 4, 5, 6].map(i => <Skeleton key={i} variant="card" className="h-64" />)}
         </div>
       </div>
     );
@@ -79,8 +79,8 @@ export default function Topics() {
   }, {});
 
   const filteredTopics = (topics || []).filter(t => {
-    const matchesSearch = t.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          t.category.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = t.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      t.category.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = activeCategory === 'all' || t.category === activeCategory;
     return matchesSearch && matchesCategory;
   });
@@ -94,22 +94,21 @@ export default function Topics() {
 
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-8 w-full space-y-6 pb-20">
-      
+
       {/* Banner */}
-      <GlassCard className="relative overflow-hidden border-none shadow-md">
-        <div className="absolute inset-0 bg-gradient-to-r from-accent/10 via-glass to-transparent opacity-50"></div>
+      <GlassCard className="card-tint-green relative overflow-hidden border-none shadow-md">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 p-4">
           <div>
             <div className="text-[10px] font-bold tracking-widest text-secondary uppercase mb-2">Benchmark Catalog / Curated Syllabus</div>
             <h1 className="text-3xl font-extrabold text-primary mb-2">Practice Topics</h1>
             <p className="text-secondary text-sm">Select a topic, configure test settings, and begin practicing or take a timed test.</p>
           </div>
-          <div className="flex items-center gap-3 bg-glass px-4 py-2 rounded-xl border border-glass-border">
+          <div className="flex items-center gap-3 bg-glass px-4 py-2 rounded-xl border border-border">
             <div className="text-right">
               <div className="text-[10px] font-bold text-secondary uppercase tracking-widest">Active Syllabus</div>
               <div className="font-bold text-primary">{topics?.length || 0} Specializations</div>
             </div>
-            <div className="w-2.5 h-2.5 rounded-full bg-success animate-pulse"></div>
+            <div className="w-2.5 h-2.5 rounded-full bg-[color:var(--mint)] animate-pulse"></div>
           </div>
         </div>
       </GlassCard>
@@ -118,7 +117,7 @@ export default function Topics() {
       <GlassCard className="flex flex-col lg:flex-row items-center justify-between gap-6 p-4">
         <div className="relative w-full lg:w-1/3">
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-secondary" />
-          <Input 
+          <Input
             type="text"
             placeholder="Search topics or subtopics..."
             value={searchTerm}
@@ -130,25 +129,25 @@ export default function Topics() {
         <div className="flex flex-wrap items-center justify-center gap-8 w-full lg:w-auto">
           <div>
             <div className="text-[10px] font-bold tracking-widest text-secondary uppercase mb-1 text-center lg:text-left">Target Rigor</div>
-            <div className="flex bg-glass-strong p-1 rounded-lg border border-glass-border shadow-sm">
+            <div className="flex bg-glass-strong p-1 rounded-lg border border-border shadow-sm">
               {['easy', 'medium', 'hard'].map(level => (
                 <button
                   key={level}
                   onClick={() => setDifficulty(level)}
-                  className={`px-4 py-1 text-xs font-bold rounded-md capitalize transition-colors ${difficulty === level ? 'bg-primary text-white shadow' : 'text-secondary hover:text-primary hover:bg-glass'}`}
+                  className={`px-4 py-1 text-xs font-semibold rounded-md capitalize transition-colors ${difficulty === level ? 'bg-[color:var(--primary)] text-white shadow' : 'text-secondary hover:text-primary hover:bg-glass'}`}
                 >
                   {level}
                 </button>
               ))}
             </div>
           </div>
-          
+
           <div>
             <div className="text-[10px] font-bold tracking-widest text-secondary uppercase mb-1 text-center lg:text-left">Assessment Span</div>
-            <select 
+            <select
               value={limit}
               onChange={e => setLimit(e.target.value)}
-              className="px-3 py-1.5 text-sm font-semibold text-primary bg-glass-strong border border-glass-border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-accent"
+              className="px-3 py-1.5 text-sm font-semibold text-primary bg-glass-strong border border-glass-border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
             >
               <option value="10">10 Questions</option>
               <option value="20">20 Questions</option>
@@ -158,10 +157,10 @@ export default function Topics() {
         </div>
 
         <div className="flex items-center gap-3 w-full lg:w-auto justify-end">
-          <Button variant="secondary" className="w-full lg:w-auto bg-glass shadow-sm whitespace-nowrap text-xs" leftIcon={<BookOpen className="w-4 h-4" />} onClick={() => navigate(`/practice/mixed?difficulty=${difficulty}&limit=${limit}`)}>
+          <Button className="w-full lg:w-auto bg-transparent border border-border text-primary hover:bg-glass shadow-sm whitespace-nowrap text-xs font-bold" leftIcon={<BookOpen className="w-4 h-4" />} onClick={() => navigate(`/practice/mixed?difficulty=${difficulty}&limit=${limit}`)}>
             Practice Mode
           </Button>
-          <Button variant="primary" className="w-full lg:w-auto shadow-md whitespace-nowrap text-xs" leftIcon={<Clock className="w-4 h-4" />} onClick={() => navigate('/test/setup')}>
+          <Button className="w-full lg:w-auto bg-[color:var(--primary)] text-white hover:bg-[color:var(--primary-hover)] shadow-md whitespace-nowrap text-xs font-bold" leftIcon={<Clock className="w-4 h-4" />} onClick={() => navigate('/test/setup')}>
             Take Timed Test
           </Button>
         </div>
@@ -173,11 +172,10 @@ export default function Topics() {
           <button
             key={cat.id}
             onClick={() => setActiveCategory(cat.id)}
-            className={`px-5 py-2 rounded-full text-xs font-bold transition-all border ${
-              activeCategory === cat.id 
-                ? 'bg-primary text-white border-primary shadow-md' 
-                : 'bg-glass text-secondary border-glass-border hover:border-accent/30 hover:text-primary hover:bg-accent/5'
-            }`}
+            className={`px-5 py-2 rounded-full text-xs font-semibold transition-all border ${activeCategory === cat.id
+                ? 'bg-[color:var(--primary)] text-white border-[color:var(--primary)] shadow-md'
+                : 'bg-glass text-secondary border-border hover:border-border hover:text-primary hover:bg-glass-strong'
+              }`}
           >
             {cat.label}
           </button>
@@ -186,7 +184,7 @@ export default function Topics() {
 
       {/* Topic Grid */}
       {filteredTopics.length === 0 ? (
-        <EmptyState 
+        <EmptyState
           icon={Brain}
           title="No topics found"
           description="We couldn't find any topics matching your criteria."
@@ -196,47 +194,45 @@ export default function Topics() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredTopics.map(topic => {
             const acc = accuracyMap[topic._id] || 0;
-            
-            // Map category to a specific badge color scheme
-            let catColor = 'text-accent bg-accent/10 border-accent/20';
-            if (topic.category === 'quant') catColor = 'text-accent bg-accent/10 border-accent/20';
-            else if (topic.category === 'logical') catColor = 'text-[#8B5CF6] bg-[#8B5CF6]/10 border-[#8B5CF6]/20';
-            else if (topic.category === 'verbal') catColor = 'text-success-text bg-success/10 border-success/20';
+            const catColor = `cat-badge-${topic.category}`;
 
             return (
-              <GlassCard key={topic._id} className="flex flex-col h-full border hover:border-accent/50 hover:shadow-xl transition-all duration-300 group p-5">
-                <div className="flex justify-between items-start mb-4">
+              <GlassCard key={topic._id} className={`flex flex-col h-full cat-${topic.category} border-t-4 hover:border-primary-soft transition-all duration-300 group p-6 relative overflow-hidden`}>
+                {/* Subtle glow removed as requested */}
+                
+                <div className="flex justify-between items-start mb-5 relative z-10">
                   <div className={`px-2.5 py-1 text-[10px] font-bold rounded-full border ${catColor} uppercase tracking-wider`}>
                     {topic.category}
                   </div>
                   {acc > 0 && <ProgressRing value={acc} />}
                 </div>
-                
-                <h3 className="text-lg font-bold text-primary mb-4 group-hover:text-accent transition-colors">{topic.name}</h3>
-                
-                <div className="flex flex-wrap gap-2 mb-8 flex-1">
+
+                <h3 className="text-xl font-extrabold text-primary mb-4 group-hover:text-[color:var(--teal)] transition-colors tracking-tight relative z-10">{topic.name}</h3>
+
+                <div className="flex flex-col gap-1.5 mb-8 flex-1 relative z-10">
                   {topic.subtopics?.slice(0, 5).map(sub => (
-                    <span key={sub} className="px-2 py-1 bg-glass-strong border border-glass-border rounded text-[10px] text-secondary font-medium whitespace-nowrap">
-                      {sub}
-                    </span>
+                    <div key={sub} className="flex items-start gap-2 text-sm text-secondary group-hover:text-primary transition-colors">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[color:var(--mint)] mt-1.5 flex-shrink-0 shadow-sm" />
+                      <span className="font-medium leading-tight">{sub}</span>
+                    </div>
                   ))}
                   {topic.subtopics?.length > 5 && (
-                    <span className="px-2 py-1 bg-glass-strong border border-glass-border rounded text-[10px] text-secondary font-medium whitespace-nowrap">
-                      +{topic.subtopics.length - 5}
-                    </span>
+                    <div className="text-xs font-bold text-[color:var(--teal)] mt-2 pl-3.5">
+                      + {topic.subtopics.length - 5} more topics
+                    </div>
                   )}
                 </div>
-                
-                <div className="grid grid-cols-2 gap-3 mt-auto">
-                  <Button 
-                    variant="secondary" 
+
+                <div className="grid grid-cols-2 gap-3 mt-auto relative z-10">
+                  <Button
+                    variant="secondary"
                     className="w-full bg-glass-strong hover:bg-glass border-glass-border text-primary font-bold text-xs py-2 shadow-sm"
                     onClick={() => navigate(`/practice/${topic._id}?difficulty=${difficulty}&limit=${limit}`)}
                   >
                     Practice
                   </Button>
-                  <Button 
-                    variant="primary" 
+                  <Button
+                    variant="primary"
                     className="w-full font-bold text-xs py-2 shadow-md"
                     onClick={() => navigate(`/test/setup?topicId=${topic._id}`)}
                   >

@@ -13,6 +13,7 @@ import { useToast } from '../../components/common/Toast';
 
 const setupSchema = z.object({
   topicId: z.string().optional(), // 'any' or topic ID
+  subtopic: z.string().optional(), // 'any' or subtopic name
   difficulty: z.enum(['any', 'easy', 'medium', 'hard']),
   numQuestions: z.number().int().min(1).max(50),
   timeLimitMins: z.number().int().min(1).max(120),
@@ -34,6 +35,7 @@ export default function TestSetup() {
     resolver: zodResolver(setupSchema),
     defaultValues: {
       topicId: initialTopicId,
+      subtopic: 'any',
       difficulty: 'any',
       numQuestions: 10,
       timeLimitMins: 15
@@ -42,6 +44,22 @@ export default function TestSetup() {
 
   const numQuestions = watch('numQuestions');
   const timeLimitMins = watch('timeLimitMins');
+  const selectedTopicId = watch('topicId');
+
+  // Derive available subtopics from the selected topic
+  const selectedTopic = topics.find(t => t._id === selectedTopicId);
+  const subtopicOptions = [
+    { label: 'Any Subtopic', value: 'any' },
+    ...(selectedTopic?.subtopics ? selectedTopic.subtopics.map(s => ({ label: s, value: s })) : [])
+  ];
+
+  // If topic changes and the current subtopic isn't valid for this topic, reset to 'any'
+  React.useEffect(() => {
+    const currentSubtopic = watch('subtopic');
+    if (currentSubtopic !== 'any' && selectedTopic && !selectedTopic.subtopics.includes(currentSubtopic)) {
+      setValue('subtopic', 'any');
+    }
+  }, [selectedTopicId, selectedTopic, setValue, watch]);
 
   // Suggest time limit based on questions
   const handleQuestionsChange = (e) => {
@@ -72,6 +90,7 @@ export default function TestSetup() {
     };
     
     if (data.topicId !== 'any') payload.topicId = data.topicId;
+    if (data.subtopic !== 'any') payload.subtopic = data.subtopic;
     if (data.difficulty !== 'any') payload.difficulty = data.difficulty;
 
     startMutation.mutate(payload);
@@ -106,6 +125,20 @@ export default function TestSetup() {
                 label="Topic"
                 options={topicOptions}
                 error={errors.topicId?.message}
+                {...field}
+              />
+            )}
+          />
+
+          <Controller
+            name="subtopic"
+            control={control}
+            render={({ field }) => (
+              <Select 
+                label="Subtopic"
+                options={subtopicOptions}
+                error={errors.subtopic?.message}
+                disabled={selectedTopicId === 'any'}
                 {...field}
               />
             )}

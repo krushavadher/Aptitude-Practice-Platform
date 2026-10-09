@@ -7,16 +7,15 @@ import { Button } from './Button';
 function NavLink({ to, children, onClick }) {
   const location = useLocation();
   const isActive = location.pathname === to || (location.pathname.startsWith(to) && to !== '/');
-  
+
   return (
-    <Link 
-      to={to} 
+    <Link
+      to={to}
       onClick={onClick}
-      className={`px-4 py-2 rounded-lg text-sm font-bold transition-all focus-visible ${
-        isActive 
-          ? 'bg-accent text-on-accent shadow-md' 
-          : 'text-secondary hover:text-primary hover:bg-accent/10'
-      }`}
+      className={`px-4 py-2 rounded-lg text-sm font-bold transition-all focus-visible ${isActive
+        ? 'bg-[color:var(--primary)] text-white shadow-md'
+        : 'text-[color:var(--text-muted)] hover:text-[color:var(--text)] hover:bg-glass'
+        }`}
     >
       {children}
     </Link>
@@ -48,25 +47,25 @@ export function Navbar({ userRole = 'guest', onLogout }) {
   const links = navLinks[userRole] || [];
 
   return (
-    <header className="sticky top-0 z-40 w-full glass rounded-none border-t-0 border-l-0 border-r-0">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-[12px] mt-[12px] z-40 mx-auto w-[calc(100%-32px)] max-w-[1280px] rounded-[20px] bg-glass-strong border border-border" style={{ backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', boxShadow: 'var(--shadow)' }}>
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-2 focus-visible rounded-lg px-2 py-1">
-              <span className="font-bold text-xl text-primary tracking-tight">AptiFlow</span>
+              <span className="font-extrabold text-2xl tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-[color:var(--primary)] to-[color:var(--teal)] drop-shadow-[0_0_15px_rgba(20,114,79,0.4)]">AptiFlow</span>
             </Link>
           </div>
-          
+
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-2">
             {links.map(link => (
               <NavLink key={link.to} to={link.to}>{link.label}</NavLink>
             ))}
-            
+
             <div className="w-px h-6 bg-glass-border mx-2" />
-            
+
             <ThemeToggle />
-            
+
             {userRole !== 'guest' && (
               <NavLink to="/profile">
                 <div className="flex items-center gap-2">
