@@ -1,11 +1,14 @@
-﻿import Question from '../models/Question.js';
+import Question from '../models/Question.js';
 import { ApiError } from '../utils/apiError.js';
 import mongoose from 'mongoose';
 
 export const getPracticeQuestions = async (topicId, query) => {
   const { difficulty, limit } = query;
   
-  const match = { topicId: new mongoose.Types.ObjectId(topicId), status: 'approved' };
+  const match = { status: 'approved' };
+  if (topicId && topicId !== 'mixed') {
+    match.topicId = new mongoose.Types.ObjectId(topicId);
+  }
   if (difficulty) match.difficulty = difficulty;
   
   const questions = await Question.aggregate([
