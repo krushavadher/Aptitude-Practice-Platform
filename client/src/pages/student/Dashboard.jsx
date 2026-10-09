@@ -79,8 +79,14 @@ export default function Dashboard() {
   // Topic mapping
   const topicMap = topics.reduce((acc, t) => { acc[t._id] = t; return acc; }, {});
 
+  // Filter topics for the Topic Performance grid
+  const recentTopicIds = new Set(recentAttempts.map(a => a.topicId || 'mixed'));
+  const filteredTopics = accuracyPerTopic.filter(stat => 
+    stat.accuracy > 0 || recentTopicIds.has(stat.topicId)
+  ).slice(0, 6);
+
   return (
-    <div className="flex-1 max-w-7xl mx-auto w-full p-4 sm:p-6 lg:p-8 space-y-6 pb-24">
+    <div className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-4 pb-24 space-y-6">
 
       {/* Banner */}
       <GlassCard className="card-solid-green relative overflow-hidden border-none shadow-md p-2">
@@ -194,11 +200,16 @@ export default function Dashboard() {
             <h2 className="text-xl font-bold text-primary mb-1">Topic Performance</h2>
             <p className="text-xs text-secondary">Accuracy calibration across evaluated categories</p>
           </div>
-          <Badge variant="neutral" className="text-xs">{accuracyPerTopic.length} Subject Areas</Badge>
+          <Badge variant="neutral" className="text-xs">{filteredTopics.length} Active Areas</Badge>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {accuracyPerTopic.map(stat => {
+          {filteredTopics.length === 0 && (
+            <div className="col-span-full py-8 text-center text-secondary border border-dashed border-glass-border rounded-xl">
+              Take tests in different topics to build your performance profile.
+            </div>
+          )}
+          {filteredTopics.map(stat => {
             const isMixed = stat.topicId === 'mixed';
             const topic = topicMap[stat.topicId];
             const name = isMixed ? 'Mixed Topics' : (topic?.name || 'Unknown Topic');

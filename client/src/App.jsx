@@ -68,7 +68,7 @@ function AppLayout() {
     <div className="min-h-screen flex flex-col relative z-0">
       <Navbar userRole={role} onLogout={logout} />
 
-      <main className="flex-1 flex flex-col pt-6 w-full max-w-[1280px] mx-auto px-6">
+      <main className="flex-1 flex flex-col w-full mx-auto">
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Landing />} />

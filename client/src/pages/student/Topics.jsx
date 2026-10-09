@@ -93,7 +93,7 @@ export default function Topics() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto p-4 sm:p-8 w-full space-y-6 pb-20">
+    <div className="max-w-7xl mx-auto w-full px-4 sm:px-8 pt-4 pb-20 space-y-6">
 
       {/* Banner */}
       <GlassCard className="card-tint-green relative overflow-hidden border-none shadow-md">

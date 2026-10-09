@@ -32,9 +32,9 @@ export default function TestResult() {
     // Read theme colors for Recharts
     const style = getComputedStyle(document.documentElement);
     setThemeColors({
-      success: style.getPropertyValue('--success').trim() || '#10B981',
-      error: style.getPropertyValue('--error').trim() || '#EF4444',
-      neutral: style.getPropertyValue('--text-secondary').trim() || '#94A3B8'
+      success: style.getPropertyValue('--primary').trim() || '#14724F',
+      error: style.getPropertyValue('--danger').trim() || '#E5675A',
+      neutral: style.getPropertyValue('--border-subtle').trim() || 'rgba(11, 93, 59, 0.12)'
     });
   }, []);
 
@@ -95,108 +95,134 @@ export default function TestResult() {
   });
 
   return (
-    <div className="flex-1 max-w-6xl mx-auto w-full p-4 sm:p-6 lg:p-8 space-y-8 pb-24">
+    <div className="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-4 pb-24 space-y-8">
       <header>
         <h1 className="text-3xl font-bold text-primary mb-2">Test Results</h1>
         <p className="text-secondary">Review your performance and explanations.</p>
       </header>
 
       {/* Summary Card */}
-      <GlassCard className="grid md:grid-cols-2 gap-8 items-center relative overflow-hidden">
-        <div className="space-y-6">
-          <div className="flex items-center gap-4">
-            <div className="w-24 h-24 rounded-full border-8 border-glass-border flex items-center justify-center bg-glass shadow-inner">
-              <span className="text-2xl font-bold tabular text-primary">{Math.round(accuracy)}%</span>
+      <GlassCard className="grid md:grid-cols-[1fr_auto] gap-8 items-center relative overflow-hidden p-6 md:p-8">
+        {/* Left Side */}
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+            <div className="relative inline-flex items-center justify-center">
+              <svg className="w-[120px] h-[120px] transform -rotate-90">
+                <circle className="text-[color:var(--primary-soft)]" strokeWidth="10" stroke="currentColor" fill="transparent" r="50" cx="60" cy="60" />
+                <circle
+                  className="text-[color:var(--primary)] transition-all duration-1000 ease-out"
+                  strokeWidth="10"
+                  strokeDasharray={2 * Math.PI * 50}
+                  strokeDashoffset={2 * Math.PI * 50 - (accuracy / 100) * 2 * Math.PI * 50}
+                  strokeLinecap="round"
+                  stroke="currentColor"
+                  fill="transparent"
+                  r="50" cx="60" cy="60"
+                />
+              </svg>
+              <div className="absolute flex items-center justify-center text-3xl font-bold text-primary tabular-nums">
+                {Math.round(accuracy)}%
+              </div>
             </div>
+            
             <div>
-              <div className="text-sm text-secondary uppercase tracking-wider font-semibold mb-1">Score</div>
-              <div className="text-4xl font-extrabold text-primary tabular-nums">
-                {correctCount} <span className="text-xl text-secondary font-medium">/ {totalCount}</span>
+              <div className="text-sm text-secondary tracking-widest font-bold mb-1">SCORE</div>
+              <div className="text-5xl font-extrabold text-primary tabular-nums">
+                {correctCount} <span className="text-3xl text-primary opacity-50">/ {totalCount}</span>
               </div>
             </div>
           </div>
-
+          
           <div className="flex flex-wrap gap-2 items-center">
-            <Badge variant="accent">Time: {formattedTime}</Badge>
-            {test.difficulty && <Badge variant="neutral">Difficulty: {test.difficulty}</Badge>}
-            {test.topicId && <Badge variant="neutral">Targeted Topic</Badge>}
+            <div className="px-3 py-1 rounded-full text-xs font-bold bg-[color:var(--primary-soft)] text-[color:var(--primary)] uppercase tracking-widest">Time: {formattedTime}</div>
+            {test.topicId && <div className="px-3 py-1 rounded-full text-xs font-bold bg-[color:var(--primary-soft)] text-[color:var(--primary)] uppercase tracking-widest">Targeted Topic</div>}
           </div>
-
-          <p className="text-lg font-medium text-primary flex items-center gap-2">
+          
+          <div className="bg-[color:var(--teal-soft)] text-[color:var(--teal)] rounded-xl px-4 py-3 flex items-center gap-3 w-fit">
             {accuracy >= 70 ? (
-              <><CheckCircle className="w-5 h-5 text-success-text" /> Great job! You scored above average.</>
+              <><CheckCircle className="w-5 h-5 flex-shrink-0" /> <span className="font-bold text-sm">Great job! You scored above average.</span></>
             ) : (
-              <><BookOpen className="w-5 h-5 text-warning-text" /> Keep practicing. Review the explanations below.</>
+              <><BookOpen className="w-5 h-5 flex-shrink-0" /> <span className="font-bold text-sm">Keep practicing. Review the explanations below.</span></>
             )}
-          </p>
+          </div>
         </div>
 
-        {/* Chart */}
-        <div className="h-64 relative">
-          {/* Accessible text alternative */}
-          <div className="sr-only">
-            Chart breakdown: {correctCount} correct, {incorrectCount} incorrect, {unansweredCount} unanswered.
+        {/* Right Side: Chart */}
+        <div className="flex flex-col items-center gap-4 border-t md:border-t-0 md:border-l border-glass-border pt-6 md:pt-0 md:pl-8">
+          <div className="relative w-[160px] h-[160px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={chartData}
+                  innerRadius={66}
+                  outerRadius={80}
+                  paddingAngle={5}
+                  dataKey="value"
+                  stroke="none"
+                >
+                  {chartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <div className="text-3xl font-bold text-primary tabular-nums">{totalCount}</div>
+              <div className="text-[10px] uppercase font-bold tracking-widest text-secondary">Questions</div>
+            </div>
           </div>
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={chartData}
-                innerRadius={60}
-                outerRadius={80}
-                paddingAngle={5}
-                dataKey="value"
-                stroke="none"
-              >
-                {chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip 
-                contentStyle={{ backgroundColor: 'var(--glass-bg-strong)', borderColor: 'var(--glass-border)', borderRadius: '0.5rem', color: 'var(--text-primary)' }}
-                itemStyle={{ color: 'var(--text-primary)' }}
-              />
-              <Legend verticalAlign="bottom" height={36} wrapperStyle={{ color: 'var(--text-primary)' }} />
-            </PieChart>
-          </ResponsiveContainer>
+          
+          {/* Legend */}
+          <div className="flex flex-col gap-1.5 w-full mt-2">
+            {chartData.map((entry, index) => (
+              <div key={index} className="flex items-center justify-between text-sm">
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: entry.color }}></div>
+                  <span className="text-secondary font-medium">{entry.name}</span>
+                </div>
+                <span className="font-bold text-primary">{entry.value}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </GlassCard>
 
       {/* Stats Row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <GlassCard padding="p-4" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-success bg-opacity-10 flex items-center justify-center">
-            <CheckCircle className="w-5 h-5 text-success" />
+        <GlassCard padding="p-4" className="flex items-center gap-4 !rounded-2xl">
+          <div className="w-[44px] h-[44px] rounded-xl bg-[color:var(--primary-soft)] flex items-center justify-center flex-shrink-0">
+            <CheckCircle className="w-5 h-5 text-[color:var(--primary)]" />
           </div>
           <div>
-            <div className="text-xl font-bold tabular-nums text-success-text">{correctCount}</div>
-            <div className="text-sm font-medium text-secondary">Correct</div>
+            <div className="text-2xl font-bold tabular-nums text-[color:var(--text)] leading-none mb-1">{correctCount}</div>
+            <div className="text-sm text-[color:var(--text-muted)]">Correct</div>
           </div>
         </GlassCard>
-        <GlassCard padding="p-4" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-error bg-opacity-10 flex items-center justify-center">
-            <XCircle className="w-5 h-5 text-error" />
+        <GlassCard padding="p-4" className="flex items-center gap-4 !rounded-2xl">
+          <div className="w-[44px] h-[44px] rounded-xl bg-[color:var(--danger-soft)] flex items-center justify-center flex-shrink-0">
+            <XCircle className="w-5 h-5 text-[color:var(--danger)]" />
           </div>
           <div>
-            <div className="text-xl font-bold tabular-nums text-error-text">{incorrectCount}</div>
-            <div className="text-sm font-medium text-secondary">Incorrect</div>
+            <div className="text-2xl font-bold tabular-nums text-[color:var(--text)] leading-none mb-1">{incorrectCount}</div>
+            <div className="text-sm text-[color:var(--text-muted)]">Incorrect</div>
           </div>
         </GlassCard>
-        <GlassCard padding="p-4" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-glass-strong border border-glass-border flex items-center justify-center">
-            <Minus className="w-5 h-5 text-secondary" />
+        <GlassCard padding="p-4" className="flex items-center gap-4 !rounded-2xl">
+          <div className="w-[44px] h-[44px] rounded-xl border border-[color:var(--border-subtle)] bg-[color:var(--glass-bg)] flex items-center justify-center flex-shrink-0">
+            <Minus className="w-5 h-5 text-[color:var(--text-muted)]" />
           </div>
           <div>
-            <div className="text-xl font-bold tabular-nums text-primary">{unansweredCount}</div>
-            <div className="text-sm font-medium text-secondary">Unanswered</div>
+            <div className="text-2xl font-bold tabular-nums text-[color:var(--text)] leading-none mb-1">{unansweredCount}</div>
+            <div className="text-sm text-[color:var(--text-muted)]">Unanswered</div>
           </div>
         </GlassCard>
-        <GlassCard padding="p-4" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-warning bg-opacity-10 flex items-center justify-center">
-            <Flag className="w-5 h-5 text-warning" />
+        <GlassCard padding="p-4" className="flex items-center gap-4 !rounded-2xl">
+          <div className="w-[44px] h-[44px] rounded-xl bg-[color:var(--teal-soft)] flex items-center justify-center flex-shrink-0">
+            <Flag className="w-5 h-5 text-[color:var(--teal)]" />
           </div>
           <div>
-            <div className="text-xl font-bold tabular-nums text-warning-text">{flaggedCount}</div>
-            <div className="text-sm font-medium text-secondary">Flagged</div>
+            <div className="text-2xl font-bold tabular-nums text-[color:var(--text)] leading-none mb-1">{flaggedCount}</div>
+            <div className="text-sm text-[color:var(--text-muted)]">Flagged</div>
           </div>
         </GlassCard>
       </div>
@@ -210,8 +236,10 @@ export default function TestResult() {
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors focus-visible outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent ${
-                  filter === f ? 'bg-accent text-on-accent' : 'bg-glass text-secondary hover:text-primary'
+                className={`px-4 py-2 rounded-full text-sm transition-colors focus-visible outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)] border ${
+                  filter === f 
+                    ? 'bg-[color:var(--primary)] text-white font-semibold border-transparent' 
+                    : 'bg-[color:var(--surface-strong)] text-[color:var(--text-muted)] border-[color:var(--border-subtle)] hover:text-[color:var(--primary)] hover:border-[color:var(--primary)] font-medium'
                 }`}
               >
                 {f}
@@ -229,16 +257,28 @@ export default function TestResult() {
               const isExpanded = expandedId === q._id;
               const isFlagged = ephemeralFlags.has(q._id);
               
-              let statusIcon = <Minus className="w-5 h-5 text-secondary" />;
+              let statusIcon = <Minus className="w-4 h-4 text-[color:var(--text-muted)]" />;
               let statusText = 'Unanswered';
+              let badgeBg = 'bg-[color:var(--border-subtle)]';
+              let badgeText = 'text-[color:var(--text-muted)]';
+              
               if (ans) {
                 if (ans.isCorrect) {
-                  statusIcon = <CheckCircle className="w-5 h-5 text-success" />;
+                  statusIcon = <CheckCircle className="w-4 h-4 text-[color:var(--primary)]" />;
                   statusText = 'Correct';
+                  badgeBg = 'bg-[color:var(--primary-soft)]';
+                  badgeText = 'text-[color:var(--primary)]';
                 } else {
-                  statusIcon = <XCircle className="w-5 h-5 text-error" />;
+                  statusIcon = <XCircle className="w-4 h-4 text-[color:var(--danger)]" />;
                   statusText = 'Incorrect';
+                  badgeBg = 'bg-[color:var(--danger-soft)]';
+                  badgeText = 'text-[color:var(--danger)]';
                 }
+              } else if (isFlagged) {
+                 statusIcon = <Flag className="w-4 h-4 text-[color:var(--teal)]" />;
+                 statusText = 'Flagged';
+                 badgeBg = 'bg-[color:var(--teal-soft)]';
+                 badgeText = 'text-[color:var(--teal)]';
               }
 
               // Create pseudo-result object for OptionList
@@ -248,25 +288,24 @@ export default function TestResult() {
               };
 
               return (
-                <div key={q._id} className="surface-solid rounded-xl border border-glass-border overflow-hidden">
+                <div key={q._id} className="bg-[color:var(--surface)] border border-[color:var(--border)] rounded-[14px] overflow-hidden transition-all duration-200 group hover:bg-[color:var(--surface-strong)] hover:border-[color:var(--primary)]/30">
                   <button
                     onClick={() => setExpandedId(isExpanded ? null : q._id)}
                     aria-expanded={isExpanded}
-                    className="w-full flex items-center justify-between p-4 focus-visible hover:bg-glass-strong transition-colors text-left"
+                    className="w-full flex items-center justify-between p-4 focus-visible outline-none text-left"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="flex items-center gap-2 w-32">
+                      <div className={`flex items-center gap-1.5 w-[110px] px-2.5 py-1 rounded-lg ${badgeBg}`}>
                         {statusIcon}
-                        <span className="text-sm font-medium text-primary">{statusText}</span>
+                        <span className={`text-xs font-bold uppercase tracking-wider ${badgeText}`}>{statusText}</span>
                       </div>
-                      <span className="font-medium text-primary">Question {idx + 1}</span>
-                      {isFlagged && <Flag className="w-4 h-4 text-warning-text" aria-label="Flagged" />}
+                      <span className="font-bold text-[color:var(--text)]">Question {idx + 1}</span>
                     </div>
-                    {isExpanded ? <ChevronUp className="w-5 h-5 text-secondary" /> : <ChevronDown className="w-5 h-5 text-secondary" />}
+                    {isExpanded ? <ChevronUp className="w-5 h-5 text-[color:var(--text-muted)]" /> : <ChevronDown className="w-5 h-5 text-[color:var(--text-muted)]" />}
                   </button>
 
                   {isExpanded && (
-                    <div className="p-4 sm:p-6 border-t border-glass-border bg-glass-strong">
+                    <div className="p-4 sm:p-6 border-t border-[color:var(--border)] bg-[color:var(--surface-strong)]">
                       <QuestionCard 
                         number={idx + 1}
                         subtopic={q.subtopic}
@@ -291,18 +330,18 @@ export default function TestResult() {
       </section>
 
       {/* Actions */}
-      <div className="flex flex-col sm:flex-row items-center gap-4 pt-8 border-t border-glass-border">
-        <Button variant="primary" onClick={() => navigate('/test/setup')} leftIcon={<RefreshCw className="w-4 h-4" />}>
-          Retake similar test
-        </Button>
+      <div className="flex flex-col sm:flex-row items-center gap-3 pt-8 border-t border-[color:var(--border)]">
+        <button className="h-[44px] px-6 rounded-xl bg-[color:var(--primary)] text-white font-bold flex items-center gap-2 transition-opacity hover:opacity-90" onClick={() => navigate('/test/setup')}>
+          <RefreshCw className="w-4 h-4" /> Retake similar test
+        </button>
         {test.topicId && (
-          <Button variant="secondary" onClick={() => navigate(`/practice/${test.topicId}`)} leftIcon={<BookOpen className="w-4 h-4" />}>
-            Practice this topic
-          </Button>
+          <button className="h-[44px] px-6 rounded-xl bg-[color:var(--surface)] border border-[color:var(--border)] text-[color:var(--primary)] font-bold flex items-center gap-2 transition-colors hover:bg-[color:var(--surface-strong)]" onClick={() => navigate(`/practice/${test.topicId}`)}>
+            <BookOpen className="w-4 h-4" /> Practice this topic
+          </button>
         )}
-        <Button variant="ghost" onClick={() => navigate('/dashboard')} leftIcon={<LayoutDashboard className="w-4 h-4" />}>
-          Back to dashboard
-        </Button>
+        <button className="h-[44px] px-6 rounded-xl bg-[color:var(--surface)] border border-[color:var(--border)] text-[color:var(--primary)] font-bold flex items-center gap-2 transition-colors hover:bg-[color:var(--surface-strong)]" onClick={() => navigate('/dashboard')}>
+          <LayoutDashboard className="w-4 h-4" /> Back to dashboard
+        </button>
       </div>
     </div>
   );

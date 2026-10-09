@@ -60,7 +60,7 @@ export default function History() {
   };
 
   return (
-    <div className="flex-1 max-w-[1400px] mx-auto w-full p-4 sm:p-6 lg:p-8 space-y-6 pb-24">
+    <div className="flex-1 max-w-[1400px] mx-auto w-full px-4 sm:px-6 lg:px-8 pt-4 pb-24 space-y-6">
       
       {/* Banner */}
       <GlassCard className="relative overflow-hidden border-none shadow-md">

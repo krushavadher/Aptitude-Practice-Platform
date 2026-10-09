@@ -65,7 +65,7 @@ export default function Leaderboard() {
   const remainingRoster = leaderboard; // Image shows all in roster
 
   return (
-    <div className="flex-1 max-w-7xl mx-auto w-full p-4 sm:p-6 lg:p-8 space-y-8 pb-24">
+    <div className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-4 pb-24 space-y-6">
       
       {/* Banner */}
       <GlassCard className="relative overflow-hidden border-none shadow-md">
@@ -275,7 +275,7 @@ export default function Leaderboard() {
       {/* Full Cohort Roster Table */}
       {leaderboard.length > 0 && (
         <section>
-          <div className="flex items-end justify-between mb-4 mt-8">
+          <div className="flex items-end justify-between mb-4 mt-6">
             <div className="flex items-center gap-3">
               <h2 className="text-lg font-bold text-primary">Full Cohort Roster</h2>
               <Badge variant="neutral" className="text-[10px]">Ranks 1-{leaderboard.length}</Badge>
