@@ -208,17 +208,18 @@ export default function Dashboard() {
 
             // Determine badge color
             let badgeColor = 'var(--primary)';
-            let badgeBg = 'var(--primary-soft)';
             if (accuracy < 70) {
               badgeColor = 'var(--teal)';
-              badgeBg = 'var(--teal-soft)';
             }
+            
+            const transparentBg = `color-mix(in srgb, ${badgeColor} 10%, transparent)`;
+            const transparentBorder = `color-mix(in srgb, ${badgeColor} 20%, transparent)`;
 
             return (
               <GlassCard key={stat.topicId} className="flex flex-col h-full border-t-4 p-6" style={{ borderTopColor: badgeColor }}>
                 <div className="flex justify-between items-start mb-4">
                   <div className="text-xs font-bold text-secondary tracking-widest">{category}</div>
-                  <div className="px-2 py-1 rounded font-bold text-sm border shadow-sm" style={{ color: badgeColor, backgroundColor: badgeBg, borderColor: badgeColor }}>
+                  <div className="px-2 py-1 rounded font-bold text-sm border shadow-sm backdrop-blur-sm" style={{ color: badgeColor, backgroundColor: transparentBg, borderColor: transparentBorder }}>
                     {accuracy}%
                   </div>
                 </div>
@@ -229,7 +230,7 @@ export default function Dashboard() {
                   <div className="flex justify-between items-center text-xs text-secondary mb-2 font-medium">
                     <span>Accuracy</span>
                   </div>
-                  <div className="w-full h-1.5 bg-glass-border rounded-full overflow-hidden">
+                  <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'color-mix(in srgb, var(--text) 8%, transparent)' }}>
                     <div className="h-full rounded-full" style={{ width: `${accuracy}%`, backgroundColor: badgeColor }}></div>
                   </div>
                 </div>
@@ -239,12 +240,12 @@ export default function Dashboard() {
                     <div className="text-[10px] font-bold text-secondary uppercase tracking-widest mb-3">Tested Subtopics</div>
                     <div className="flex flex-wrap gap-2">
                       {subtopics.slice(0, 4).map(sub => (
-                        <span key={sub} className="px-2 py-1 bg-glass-strong border border-glass-border rounded text-xs text-secondary whitespace-nowrap">
+                        <span key={sub} className="px-2 py-1 border border-glass-border rounded text-xs text-secondary whitespace-nowrap backdrop-blur-sm" style={{ backgroundColor: 'color-mix(in srgb, var(--text) 3%, transparent)' }}>
                           {sub}
                         </span>
                       ))}
                       {subtopics.length > 4 && (
-                        <span className="px-2 py-1 bg-glass-strong border border-glass-border rounded text-xs text-secondary whitespace-nowrap">
+                        <span className="px-2 py-1 border border-glass-border rounded text-xs text-secondary whitespace-nowrap backdrop-blur-sm" style={{ backgroundColor: 'color-mix(in srgb, var(--text) 3%, transparent)' }}>
                           +{subtopics.length - 4} more
                         </span>
                       )}
@@ -253,8 +254,20 @@ export default function Dashboard() {
                 )}
 
                 <Button
-                  variant="secondary"
-                  className="w-full mt-auto bg-[color:var(--primary-soft)] hover:bg-[color:var(--primary)] border-[color:var(--primary-soft)] text-[color:var(--primary)] hover:text-white transition-colors shadow-sm"
+                  className="w-full mt-auto hover:text-white transition-colors shadow-sm backdrop-blur-sm"
+                  style={{ 
+                    backgroundColor: transparentBg, 
+                    borderColor: transparentBorder,
+                    color: badgeColor 
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = badgeColor;
+                    e.currentTarget.style.color = 'white';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = transparentBg;
+                    e.currentTarget.style.color = badgeColor;
+                  }}
                   rightIcon={<ArrowRight className="w-4 h-4" />}
                   onClick={() => navigate(isMixed ? '/topics' : `/practice/${stat.topicId}`)}
                 >
