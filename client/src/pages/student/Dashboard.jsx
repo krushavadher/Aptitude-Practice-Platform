@@ -11,6 +11,7 @@ import { Loader } from '../../components/common/Loader';
 import { ErrorState, EmptyState } from '../../components/common/States';
 import { CheckCircle, Activity, Award, ArrowRight, Play, BookOpen, AlertTriangle, Clock, TrendingUp, CheckSquare } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
+import { getImageUrl } from '../../utils/getImageUrl';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -85,10 +86,15 @@ export default function Dashboard() {
       <GlassCard className="relative overflow-hidden border-none shadow-md">
         <div className="absolute inset-0 bg-gradient-to-r from-accent/20 via-glass to-transparent opacity-50"></div>
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 p-2">
-          <div>
-            <div className="text-xs font-bold tracking-widest text-accent uppercase mb-2">Academic Telemetry • Active Session</div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-primary mb-2">Welcome back, {user.name}</h1>
-            <p className="text-secondary text-base">Track your progress and continue your preparation.</p>
+          <div className="flex items-center gap-4">
+            {user?.avatar && (
+              <img src={getImageUrl(user.avatar)} alt="Profile" className="w-16 h-16 rounded-full border-2 border-accent object-cover" />
+            )}
+            <div>
+              <div className="text-xs font-bold tracking-widest text-accent uppercase mb-2">Academic Telemetry • Active Session</div>
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-primary mb-2">Welcome back, {user.name}</h1>
+              <p className="text-secondary text-base">Track your progress and continue your preparation.</p>
+            </div>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             <Button variant="secondary" className="bg-glass shadow-sm whitespace-nowrap" leftIcon={<Clock className="w-4 h-4 text-accent" />} onClick={() => navigate('/test/setup')}>

@@ -6,6 +6,7 @@ import { Badge } from '../../components/common/Badge';
 import { Loader } from '../../components/common/Loader';
 import { ErrorState, EmptyState } from '../../components/common/States';
 import { Trophy, TrendingUp, Globe, Calendar, Award, Star } from 'lucide-react';
+import { getImageUrl } from '../../utils/getImageUrl';
 
 // Helper to generate a consistent pseudo-ID based on name
 const generateId = (name) => {
@@ -110,9 +111,13 @@ export default function Leaderboard() {
       {currentUser && (
         <GlassCard className="flex flex-col lg:flex-row items-center justify-between p-6 shadow-sm border-l-4 border-l-accent overflow-hidden relative">
           <div className="flex items-center gap-4 w-full lg:w-auto mb-6 lg:mb-0">
-            <div className="w-14 h-14 rounded-full bg-accent text-white flex items-center justify-center font-bold text-xl shadow-lg relative">
-              {getInitials(currentUser.name)}
-              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary text-white rounded-full text-[10px] flex items-center justify-center font-bold border-2 border-white">
+            <div className="w-14 h-14 rounded-full bg-accent text-white flex items-center justify-center font-bold text-xl shadow-lg relative overflow-hidden">
+              {currentUser.avatar ? (
+                <img src={getImageUrl(currentUser.avatar)} alt={currentUser.name} className="w-full h-full object-cover" />
+              ) : (
+                getInitials(currentUser.name)
+              )}
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary text-white rounded-full text-[10px] flex items-center justify-center font-bold border-2 border-white z-10">
                 YOU
               </div>
             </div>
@@ -174,8 +179,8 @@ export default function Leaderboard() {
                 <div className="w-8 h-8 rounded-full bg-[#E2E8F0] text-[#334155] flex items-center justify-center text-xs font-bold absolute top-4 left-4">#2</div>
                 <div className="absolute top-4 right-4 px-2 py-1 bg-[#E2E8F0] text-[#334155] text-[10px] font-bold rounded uppercase tracking-wider">Silver</div>
                 
-                <div className="w-20 h-20 rounded-full bg-glass-strong text-primary flex items-center justify-center font-bold text-2xl shadow-sm mt-4 mb-4">
-                  {getInitials(topThree[1].name)}
+                <div className="w-20 h-20 rounded-full bg-glass-strong text-primary flex items-center justify-center font-bold text-2xl shadow-sm mt-4 mb-4 overflow-hidden border-2 border-[#94A3B8]">
+                  {topThree[1].avatar ? <img src={getImageUrl(topThree[1].avatar)} alt={topThree[1].name} className="w-full h-full object-cover" /> : getInitials(topThree[1].name)}
                 </div>
                 <h3 className="text-lg font-bold text-primary">{topThree[1].name}</h3>
                 <p className="text-[10px] text-secondary font-medium uppercase tracking-widest mb-6">{topicName}</p>
@@ -207,9 +212,11 @@ export default function Leaderboard() {
                 <div className="w-8 h-8 rounded-full bg-[#FEF08A] text-[#854D0E] flex items-center justify-center text-xs font-bold absolute top-4 left-4 shadow-sm">#1</div>
                 <div className="absolute top-4 right-4 px-2 py-1 bg-[#FEF08A] text-[#854D0E] text-[10px] font-bold rounded uppercase tracking-wider shadow-sm">Gold</div>
                 
-                <div className="w-24 h-24 rounded-full bg-glass-strong border-[3px] border-[#EAB308] text-primary flex items-center justify-center font-bold text-3xl shadow-md mt-6 mb-4 relative">
-                  {getInitials(topThree[0].name)}
-                  <div className="absolute -bottom-2 -right-2 w-7 h-7 bg-[#EAB308] text-white rounded-full flex items-center justify-center shadow-sm">
+                <div className="w-24 h-24 rounded-full bg-glass-strong border-[3px] border-[#EAB308] text-primary flex items-center justify-center font-bold text-3xl shadow-md mt-6 mb-4 relative overflow-visible">
+                  <div className="w-full h-full rounded-full overflow-hidden">
+                    {topThree[0].avatar ? <img src={getImageUrl(topThree[0].avatar)} alt={topThree[0].name} className="w-full h-full object-cover" /> : getInitials(topThree[0].name)}
+                  </div>
+                  <div className="absolute -bottom-2 -right-2 w-7 h-7 bg-[#EAB308] text-white rounded-full flex items-center justify-center shadow-sm z-10">
                     <Star className="w-4 h-4" />
                   </div>
                 </div>
@@ -239,8 +246,8 @@ export default function Leaderboard() {
                 <div className="w-8 h-8 rounded-full bg-[#FED7AA] text-[#9A3412] flex items-center justify-center text-xs font-bold absolute top-4 left-4">#3</div>
                 <div className="absolute top-4 right-4 px-2 py-1 bg-[#FED7AA] text-[#9A3412] text-[10px] font-bold rounded uppercase tracking-wider">Bronze</div>
                 
-                <div className="w-20 h-20 rounded-full bg-glass-strong text-primary flex items-center justify-center font-bold text-2xl shadow-sm mt-4 mb-4">
-                  {getInitials(topThree[2].name)}
+                <div className="w-20 h-20 rounded-full bg-glass-strong text-primary flex items-center justify-center font-bold text-2xl shadow-sm mt-4 mb-4 overflow-hidden border-2 border-[#D97706]">
+                  {topThree[2].avatar ? <img src={getImageUrl(topThree[2].avatar)} alt={topThree[2].name} className="w-full h-full object-cover" /> : getInitials(topThree[2].name)}
                 </div>
                 <h3 className="text-lg font-bold text-primary">{topThree[2].name}</h3>
                 <p className="text-[10px] text-secondary font-medium uppercase tracking-widest mb-6">{topicName}</p>
@@ -306,8 +313,8 @@ export default function Leaderboard() {
                         </td>
                         <td className="p-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-glass-strong text-primary flex items-center justify-center text-xs font-bold shadow-sm">
-                              {getInitials(entry.name)}
+                            <div className="w-8 h-8 rounded-full bg-glass-strong text-primary flex items-center justify-center text-xs font-bold shadow-sm overflow-hidden">
+                              {entry.avatar ? <img src={getImageUrl(entry.avatar)} alt={entry.name} className="w-full h-full object-cover" /> : getInitials(entry.name)}
                             </div>
                             <div>
                               <div className="font-bold text-sm text-primary">{entry.name}</div>

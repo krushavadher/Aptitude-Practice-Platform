@@ -66,13 +66,20 @@ export default function Login() {
             error={errors.email?.message}
             {...register('email')}
           />
-          <Input 
-            label="Password" 
-            type="password" 
-            placeholder="••••••••"
-            error={errors.password?.message}
-            {...register('password')}
-          />
+          <div>
+            <div className="flex justify-between items-center">
+              <label className="block text-sm font-medium text-primary mb-1">Password</label>
+              <Link to="/forgot-password" className="text-xs text-accent hover:underline focus-visible">
+                Forgot password?
+              </Link>
+            </div>
+            <Input 
+              type="password" 
+              placeholder="••••••••"
+              error={errors.password?.message}
+              {...register('password')}
+            />
+          </div>
           <Button type="submit" className="w-full mt-2" isLoading={isSubmitting}>
             Log In
           </Button>

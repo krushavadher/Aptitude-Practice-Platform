@@ -40,7 +40,8 @@ export function Navbar({ userRole = 'guest', onLogout }) {
     admin: [
       { to: '/admin', label: 'Dashboard' },
       { to: '/admin/topics', label: 'Topics' },
-      { to: '/admin/questions', label: 'Questions' }
+      { to: '/admin/questions', label: 'Questions' },
+      { to: '/admin/users', label: 'Users' }
     ]
   };
 
@@ -52,8 +53,7 @@ export function Navbar({ userRole = 'guest', onLogout }) {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-2 focus-visible rounded-lg px-2 py-1">
-              <BrainCircuit className="w-8 h-8 text-accent" />
-              <span className="font-bold text-xl text-primary tracking-tight">AptitudePlatform</span>
+              <span className="font-bold text-xl text-primary tracking-tight">AptiFlow</span>
             </Link>
           </div>
           
@@ -68,9 +68,12 @@ export function Navbar({ userRole = 'guest', onLogout }) {
             <ThemeToggle />
             
             {userRole !== 'guest' && (
-              <Button variant="ghost" size="sm" onClick={onLogout} leftIcon={<User className="w-4 h-4" />}>
-                Logout
-              </Button>
+              <NavLink to="/profile">
+                <div className="flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  Profile
+                </div>
+              </NavLink>
             )}
           </nav>
 
@@ -103,12 +106,13 @@ export function Navbar({ userRole = 'guest', onLogout }) {
               </Link>
             ))}
             {userRole !== 'guest' && (
-              <button
-                onClick={() => { onLogout?.(); setIsMobileMenuOpen(false); }}
+              <Link
+                to="/profile"
+                onClick={() => setIsMobileMenuOpen(false)}
                 className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-primary hover:bg-glass flex items-center gap-2"
               >
-                <User className="w-4 h-4" /> Logout
-              </button>
+                <User className="w-4 h-4" /> Profile
+              </Link>
             )}
           </div>
         </div>
@@ -122,7 +126,7 @@ export function Footer() {
     <footer className="mt-auto py-6 border-t border-glass-border">
       <div className="max-w-7xl mx-auto px-4 text-center">
         <p className="text-secondary text-sm">
-          &copy; {new Date().getFullYear()} AptitudePlatform. All rights reserved.
+          &copy; {new Date().getFullYear()} AptiFlow. All rights reserved.
         </p>
       </div>
     </footer>

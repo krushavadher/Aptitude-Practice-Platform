@@ -61,6 +61,10 @@ export function AuthProvider({ children }) {
     handleLogout();
   };
 
+  const updateUser = (userData) => {
+    setUser(userData);
+  };
+
   const value = {
     user,
     token,
@@ -70,6 +74,7 @@ export function AuthProvider({ children }) {
     login,
     register,
     logout,
+    updateUser,
   };
 
   if (loading) {

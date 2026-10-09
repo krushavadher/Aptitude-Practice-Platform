@@ -12,6 +12,8 @@ import { AdminRoute } from './routes/AdminRoute';
 import Landing from './pages/public/Landing';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
+import ForgotPassword from './pages/auth/ForgotPassword';
+import ResetPassword from './pages/auth/ResetPassword';
 import Topics from './pages/student/Topics';
 import Practice from './pages/student/Practice';
 import TestSetup from './pages/student/TestSetup';
@@ -23,12 +25,14 @@ import TestResult from './pages/student/TestResult';
 import Dashboard from './pages/student/Dashboard';
 import History from './pages/student/History';
 import Leaderboard from './pages/student/Leaderboard';
+import Profile from './pages/student/Profile';
 
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminTopics from './pages/admin/AdminTopics';
 import AdminQuestions from './pages/admin/AdminQuestions';
 import AdminAi from './pages/admin/AdminAi';
 import AdminReview from './pages/admin/AdminReview';
+import AdminUsers from './pages/admin/AdminUsers';
 
 // Placeholder Pages
 const Placeholder = ({ title }) => (
@@ -70,6 +74,8 @@ function AppLayout() {
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
           
           {/* Student Routes */}
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
@@ -80,6 +86,7 @@ function AppLayout() {
           <Route path="/results/:testId" element={<ProtectedRoute><TestResult /></ProtectedRoute>} />
           <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
           <Route path="/leaderboard" element={<ProtectedRoute><Leaderboard /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
@@ -87,6 +94,7 @@ function AppLayout() {
           <Route path="/admin/questions" element={<AdminRoute><AdminQuestions /></AdminRoute>} />
           <Route path="/admin/ai" element={<AdminRoute><AdminAi /></AdminRoute>} />
           <Route path="/admin/review" element={<AdminRoute><AdminReview /></AdminRoute>} />
+          <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
           
           {/* Fallbacks */}
           {import.meta.env.DEV && <Route path="/styleguide" element={<Styleguide />} />}
