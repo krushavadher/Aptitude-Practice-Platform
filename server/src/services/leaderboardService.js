@@ -40,6 +40,7 @@ export const getLeaderboard = async (userId, query, topicId = null) => {
         _id: 0,
         userId: 1,
         name: '$user.name',
+        avatar: '$user.avatar',
         score: 1,
         total: 1,
         timeTakenSec: 1,

@@ -1,4 +1,5 @@
-﻿import Attempt from '../models/Attempt.js';
+import Attempt from '../models/Attempt.js';
+import User from '../models/User.js';
 
 export const getMyAttempts = async (userId, page = 1, limit = 10) => {
   const pageNum = parseInt(page, 10);
@@ -56,5 +57,27 @@ export const getMyStats = async (userId) => {
     totalAttempts,
     averageScore,
     accuracyPerTopic
+  };
+};
+
+export const updateProfile = async (userId, data) => {
+  const { name, avatar } = data;
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new Error('User not found');
+  }
+  
+  if (name) user.name = name;
+  if (avatar !== undefined) user.avatar = avatar;
+  
+  await user.save();
+  
+  return {
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    avatar: user.avatar,
+    createdAt: user.createdAt
   };
 };

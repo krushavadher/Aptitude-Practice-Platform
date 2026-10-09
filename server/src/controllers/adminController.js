@@ -1,4 +1,4 @@
-﻿import { asyncHandler } from '../utils/asyncHandler.js';
+import { asyncHandler } from '../utils/asyncHandler.js';
 import * as adminService from '../services/adminService.js';
 import * as topicService from '../services/topicService.js';
 import * as aiService from '../services/aiService.js';
@@ -102,4 +102,13 @@ export const getAdminStats = asyncHandler(async (req, res) => {
   });
 
   res.status(200).json({ success: true, data: stats, message: 'Admin stats retrieved' });
+});
+
+export const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find().select('-passwordHash').sort({ createdAt: -1 });
+  res.status(200).json({
+    success: true,
+    data: users,
+    message: 'Users retrieved successfully'
+  });
 });

@@ -1,4 +1,4 @@
-﻿import express from 'express';
+import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import morgan from 'morgan';
@@ -11,13 +11,16 @@ dotenv.config();
 
 const app = express();
 
-app.use(helmet());
+app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 app.use(cors({ origin: process.env.CLIENT_URL }));
 app.use(express.json());
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
+import path from 'path';
+app.use('/uploads', express.static(path.join(process.cwd(), 'public', 'uploads')));
 
 // Apply general rate limiter to all API routes
 app.use('/api', generalLimiter);
