@@ -1,14 +1,15 @@
-﻿import Test from '../models/Test.js';
+import Test from '../models/Test.js';
 import Attempt from '../models/Attempt.js';
 import Question from '../models/Question.js';
 import { ApiError } from '../utils/apiError.js';
 import mongoose from 'mongoose';
 
 export const startTest = async (userId, data) => {
-  const { topicId, numQuestions, durationSec, difficulty } = data;
+  const { topicId, subtopic, numQuestions, durationSec, difficulty } = data;
 
   const match = { status: 'approved' };
   if (topicId) match.topicId = new mongoose.Types.ObjectId(topicId);
+  if (subtopic && subtopic !== 'any') match.subtopic = subtopic;
   if (difficulty) match.difficulty = difficulty;
 
   const questions = await Question.aggregate([
