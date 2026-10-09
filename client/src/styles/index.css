@@ -5,6 +5,7 @@
 :root,
 [data-theme="light"] {
   --bg-mid: #E8F3EC;
+  --bg: var(--bg-mid);
 
   /* Glass Variables */
   --surface: rgba(255, 255, 255, 0.45);
@@ -41,6 +42,11 @@
   --error-text: #10241E;
   --warning: #F5A524;
   --warning-text: #10241E;
+}
+
+body {
+  background: var(--bg);
+  min-height: 100vh;
 }
 
 [data-theme="dark"] {

@@ -6,7 +6,7 @@ import { Button } from './Button';
 
 function NavLink({ to, children, onClick }) {
   const location = useLocation();
-  const isActive = location.pathname === to || (location.pathname.startsWith(to) && to !== '/');
+  const isActive = location.pathname === to || (location.pathname.startsWith(to) && to !== '/') || (to === '/topics' && (location.pathname.startsWith('/practice') || location.pathname.startsWith('/test')));
 
   return (
     <Link
@@ -121,13 +121,5 @@ export function Navbar({ userRole = 'guest', onLogout }) {
 }
 
 export function Footer() {
-  return (
-    <footer className="mt-auto py-6 border-t border-glass-border">
-      <div className="max-w-7xl mx-auto px-4 text-center">
-        <p className="text-secondary text-sm">
-          &copy; {new Date().getFullYear()} AptiFlow. All rights reserved.
-        </p>
-      </div>
-    </footer>
-  );
+  return null;
 }

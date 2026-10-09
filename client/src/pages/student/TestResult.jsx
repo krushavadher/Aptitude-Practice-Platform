@@ -95,7 +95,7 @@ export default function TestResult() {
   });
 
   return (
-    <div className="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-4 pb-24 space-y-8">
+    <div className="flex-1 max-w-[760px] mx-auto w-full px-4 sm:px-6 pt-4 pb-24 space-y-8">
       <header>
         <h1 className="text-3xl font-bold text-primary mb-2">Test Results</h1>
         <p className="text-secondary">Review your performance and explanations.</p>

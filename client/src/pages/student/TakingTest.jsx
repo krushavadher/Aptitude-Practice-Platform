@@ -204,162 +204,114 @@ export default function TakingTest() {
   const flaggedCount = flags.size;
 
   return (
-    <div className="flex-1 flex flex-col md:flex-row bg-glass-strong relative" onKeyDown={handleKeyDown} tabIndex={0}>
-      
-      {/* Mobile Header */}
-      <div className="md:hidden flex items-center justify-between p-4 border-b border-glass-border glass sticky top-0 z-10">
-        <button onClick={() => setShowPalette(true)} className="flex items-center gap-2 text-primary font-medium p-2 rounded-lg hover:bg-glass">
-          <LayoutGrid className="w-5 h-5" />
-          <span>Palette</span>
-        </button>
-        <div className={`tabular-nums font-bold px-3 py-1.5 rounded-lg border flex items-center gap-2 ${timerClass}`}>
-          <TimerIcon className="w-4 h-4" />
-          {formattedTime}
-        </div>
-      </div>
-
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-full md:max-w-4xl mx-auto w-full p-4 md:p-6 lg:p-8">
+    <div className="flex-1 flex flex-col" onKeyDown={handleKeyDown} tabIndex={0}>
+      <div className="max-w-[760px] mx-auto w-full flex-1 flex flex-col px-6 pt-4 pb-[100px] space-y-4">
         
-        {/* Desktop Header */}
-        <div className="hidden md:flex items-center justify-between mb-8 pb-4 border-b border-glass-border">
-          <h1 className="text-xl font-bold text-primary">Test in Progress</h1>
+        {/* Header / Progress */}
+        <div className="flex items-center justify-between mt-2">
+          <button onClick={() => navigate('/dashboard')} className="flex items-center gap-2 h-10 px-3 -ml-3 text-[color:var(--text-muted)] hover:text-[color:var(--text)] transition-colors rounded-lg font-medium">
+            <ArrowLeft className="w-5 h-5" /> Exit
+          </button>
           
-          <div className="flex items-center gap-6">
-            <div className={`tabular-nums font-bold px-4 py-2 rounded-xl border-2 flex items-center gap-2 ${timerClass}`} aria-live="polite">
-              <span className="sr-only">Time remaining: {timerStateText}</span>
-              <TimerIcon className="w-5 h-5" />
-              <span className="text-xl">{formattedTime}</span>
+          <div className="flex-1 max-w-[200px] mx-4 flex items-center justify-center">
+            <div className="h-2 w-full bg-[color:var(--primary-soft)] rounded-full overflow-hidden">
+              <div className="h-full bg-[color:var(--primary)] transition-all duration-300" style={{ width: `${Math.max(4, ((currentIndex + 1) / questions.length) * 100)}%` }} />
             </div>
-            <Button onClick={() => setShowConfirm(true)} variant="primary">Submit Test</Button>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            <div className={`h-[28px] px-3 font-bold rounded-full flex items-center gap-1.5 text-[12px] tabular-nums ${isDanger ? 'bg-[color:var(--danger-soft)] text-[color:var(--danger)]' : 'bg-[color:var(--teal-soft)] text-[color:var(--teal)]'}`}>
+              <Clock className="w-3.5 h-3.5" />
+              {formattedTime}
+            </div>
+            <div className="text-[14px] text-[color:var(--text-muted)] tabular-nums font-medium">
+              {currentIndex + 1} of {questions.length}
+            </div>
           </div>
         </div>
 
-        {/* Question Area */}
-        <div className="flex-1 flex flex-col">
-          <QuestionCard 
-            number={currentIndex + 1}
-            total={questions.length}
-            subtopic={currentQ.subtopic}
-            difficulty={currentQ.difficulty}
-            text={currentQ.text}
-          />
-
-          <div className="flex-1 mb-8">
-            <OptionList 
-              options={currentQ.options}
-              selectedIndex={answers[currentQ._id]}
-              onSelect={(idx) => setAnswers(prev => ({ ...prev, [currentQ._id]: idx }))}
-            />
+        {/* Question Card */}
+        <div className="bg-[color:var(--surface-strong)] rounded-[20px] p-6 border border-[color:var(--border-subtle)] shadow-sm">
+          <div className="flex items-center justify-between">
+            <div className="text-[12px] uppercase tracking-[0.08em] text-[color:var(--text-muted)] font-semibold">
+              Question {currentIndex + 1} of {questions.length}
+            </div>
+            <div className="flex items-center gap-2">
+              {currentQ.subtopic && (
+                <span className="h-[28px] px-3 bg-[color:var(--primary-soft)] text-[color:var(--primary)] text-[12px] font-semibold rounded-full flex items-center">
+                  {currentQ.subtopic}
+                </span>
+              )}
+              <span className={`h-[28px] px-3 text-[12px] font-semibold rounded-full flex items-center ${
+                currentQ.difficulty === 'Easy' ? 'bg-[color:var(--primary-soft)] text-[color:var(--primary)]' :
+                currentQ.difficulty === 'Hard' ? 'bg-[color:var(--danger-soft)] text-[color:var(--danger)]' :
+                'bg-[color:var(--teal-soft)] text-[color:var(--teal)]'
+              }`}>
+                {currentQ.difficulty || 'Medium'}
+              </span>
+              <button 
+                onClick={toggleFlag}
+                className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ml-1 ${flags.has(currentQ._id) ? 'bg-[color:var(--teal-soft)] text-[color:var(--teal)]' : 'text-[color:var(--text-muted)] hover:bg-[color:var(--surface)] hover:text-[color:var(--text)]'}`}
+              >
+                <Flag className={`w-4 h-4 ${flags.has(currentQ._id) ? 'fill-current' : ''}`} />
+              </button>
+            </div>
           </div>
+          <h2 className="text-[17px] leading-snug font-medium text-[color:var(--text)] mt-3">
+            {currentQ.text}
+          </h2>
         </div>
 
-        {/* Bottom Actions */}
-        <div className="flex items-center justify-between mt-auto pt-4 border-t border-glass-border">
-          <Button 
-            variant="ghost" 
-            disabled={currentIndex === 0} 
-            onClick={() => setCurrentIndex(c => c - 1)}
-            leftIcon={<ArrowLeft className="w-4 h-4" />}
-          >
-            Previous
-          </Button>
+        {/* Answer Options */}
+        <div className="space-y-2">
+          {currentQ.options.map((option, idx) => {
+            const isSelected = answers[currentQ._id] === idx;
+            const letter = String.fromCharCode(65 + idx);
+            
+            let btnClass = "w-full text-left min-h-[44px] py-2 px-3 rounded-[12px] border backdrop-blur-[14px] flex items-center gap-3 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--primary)]";
+            let letterClass = "w-[28px] h-[28px] text-[14px] rounded-[8px] font-semibold flex items-center justify-center transition-colors shrink-0";
 
-          <Button 
-            variant={flags.has(currentQ._id) ? "secondary" : "ghost"} 
-            onClick={toggleFlag}
-            className={flags.has(currentQ._id) ? "border-warning text-warning-text hover:bg-warning hover:bg-opacity-10" : ""}
-            leftIcon={<Flag className="w-4 h-4" />}
-          >
-            {flags.has(currentQ._id) ? 'Unflag' : 'Flag for review'}
-          </Button>
+            if (isSelected) {
+              btnClass += " bg-[color:var(--primary-soft)] border-[1.5px] border-[color:var(--primary)]";
+              letterClass += " bg-[color:var(--primary)] text-white";
+            } else {
+              btnClass += " bg-[color:var(--surface)] border-[color:var(--border-subtle)] hover:bg-[color:var(--surface-strong)] hover:border-[color:var(--primary)]/35";
+              letterClass += " bg-[color:var(--surface-strong)] text-[color:var(--text-muted)]";
+            }
 
-          {currentIndex === questions.length - 1 ? (
-            <Button onClick={() => setShowConfirm(true)}>Review & Submit</Button>
-          ) : (
-            <Button 
-              variant="secondary"
-              onClick={() => setCurrentIndex(c => c + 1)}
-              rightIcon={<ArrowRight className="w-4 h-4" />}
-            >
-              Next
-            </Button>
-          )}
+            return (
+              <button 
+                key={idx}
+                onClick={() => setAnswers(prev => ({ ...prev, [currentQ._id]: idx }))}
+                className={btnClass}
+              >
+                <div className={letterClass}>{letter}</div>
+                <span className="text-[15px] leading-snug text-[color:var(--text)]">{option}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      {/* Question Palette Sidebar */}
-      <aside className={`fixed inset-y-0 right-0 z-20 w-80 glass border-l border-glass-border transform transition-transform duration-300 md:relative md:transform-none flex flex-col ${showPalette ? 'translate-x-0' : 'translate-x-full'}`}>
-        <div className="p-4 border-b border-glass-border flex justify-between items-center">
-          <h2 className="font-bold text-primary">Question Palette</h2>
-          <button className="md:hidden p-2 hover:bg-glass rounded-lg text-secondary" onClick={() => setShowPalette(false)}>
-            <X className="w-5 h-5" />
+      {/* Sticky Action Bar */}
+      <div className="fixed bottom-0 left-0 right-0 w-full z-20 bg-[color:var(--surface-strong)] backdrop-blur-[14px] border-t border-[color:var(--border-subtle)]">
+        <div className="max-w-[760px] mx-auto w-full px-6 py-4 flex items-center justify-between">
+          <button 
+            onClick={() => currentIndex < questions.length - 1 ? setCurrentIndex(c => c + 1) : setShowConfirm(true)} 
+            className="h-[48px] px-4 font-semibold text-[color:var(--text-muted)] hover:text-[color:var(--text)] hover:bg-[color:var(--surface)] rounded-xl transition-colors -ml-4"
+          >
+            Skip
+          </button>
+
+          <button
+            onClick={() => currentIndex === questions.length - 1 ? setShowConfirm(true) : setCurrentIndex(c => c + 1)}
+            className="h-[48px] min-w-[160px] px-6 rounded-[12px] bg-[color:var(--primary)] hover:bg-[color:var(--primary-hover)] font-semibold text-white transition-colors flex items-center justify-center gap-2"
+          >
+            {currentIndex === questions.length - 1 ? 'Finish Test' : 'Next Question'}
+            {currentIndex < questions.length - 1 && <ArrowRight className="w-4 h-4" />}
           </button>
         </div>
-        
-        <div className="p-4 flex-1 overflow-y-auto">
-          <div className="grid grid-cols-5 gap-2 mb-8">
-            {questions.map((q, idx) => {
-              const isCurrent = idx === currentIndex;
-              const isAns = answers[q._id] !== undefined;
-              const isFlag = flags.has(q._id);
-
-              let btnClass = "w-10 h-10 rounded-lg flex items-center justify-center text-sm font-bold transition-all relative border-2 ";
-              let srState = `Question ${idx + 1}, `;
-              
-              if (isAns) {
-                btnClass += "bg-accent border-accent text-on-accent ";
-                srState += "answered";
-              } else {
-                btnClass += "bg-glass border-glass-border text-primary ";
-                srState += "unanswered";
-              }
-
-              if (isCurrent) {
-                btnClass += "ring-2 ring-accent ring-offset-2 ring-offset-black ";
-                srState += ", current";
-              }
-
-              if (isFlag) {
-                btnClass += "border-warning !text-warning-text "; // warning border override
-                srState += ", flagged";
-              }
-
-              return (
-                <button
-                  key={q._id}
-                  onClick={() => { setCurrentIndex(idx); setShowPalette(false); }}
-                  className={btnClass}
-                  aria-label={srState}
-                  aria-current={isCurrent ? 'step' : undefined}
-                >
-                  {idx + 1}
-                  {isFlag && (
-                    <div className="absolute -top-2 -right-2 w-4 h-4 bg-glass rounded-full border border-warning flex items-center justify-center text-warning-text">
-                      <Flag className="w-2.5 h-2.5 fill-current" />
-                    </div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="space-y-2 text-sm text-secondary">
-            <div className="flex items-center gap-2"><div className="w-4 h-4 bg-accent rounded" /> Answered ({answeredCount})</div>
-            <div className="flex items-center gap-2"><div className="w-4 h-4 bg-glass border-2 border-glass-border rounded" /> Unanswered ({questions.length - answeredCount})</div>
-            <div className="flex items-center gap-2"><Flag className="w-4 h-4 text-warning-text" /> Flagged ({flaggedCount})</div>
-          </div>
-        </div>
-
-        <div className="p-4 border-t border-glass-border bg-glass-strong md:hidden">
-          <Button className="w-full" onClick={() => setShowConfirm(true)}>Submit Test</Button>
-        </div>
-      </aside>
-
-      {/* Mobile Backdrop */}
-      {showPalette && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-10 md:hidden" onClick={() => setShowPalette(false)} />
-      )}
+      </div>
 
       <ConfirmDialog 
         isOpen={showConfirm} 
