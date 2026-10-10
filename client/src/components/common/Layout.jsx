@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, BrainCircuit, User, ArrowLeft } from 'lucide-react';
-import { ThemeToggle } from './ThemeToggle';
+import { Menu, X, BrainCircuit, User, ArrowLeft, Moon } from 'lucide-react';
 import { Button } from './Button';
 
 function NavLink({ to, children, onClick }) {
@@ -48,6 +47,7 @@ export function Navbar({ userRole = 'guest', onLogout }) {
 
   const location = useLocation();
   const isAuthPage = ['/login', '/register', '/forgot-password'].includes(location.pathname);
+  const isLandingPage = location.pathname === '/';
 
   if (isAuthPage) {
     return (
@@ -69,25 +69,25 @@ export function Navbar({ userRole = 'guest', onLogout }) {
   const links = navLinks[userRole] || [];
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/30 backdrop-blur-2xl transition-all">
+    <header className={`${isLandingPage ? 'sticky top-0 bg-[#EEF8F3]/90 backdrop-blur-md border-b border-[#14724F]/5' : 'sticky top-0 bg-white/30 backdrop-blur-2xl'} z-50 w-full transition-all`}>
       <div className="w-full max-w-[1150px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-24">
+        <div className={`flex justify-between items-center ${isLandingPage ? 'h-20' : 'h-24'}`}>
           
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-2.5 focus-visible rounded-lg px-2 py-1">
-              <span className="font-extrabold text-3xl tracking-tighter text-[#10241E]">AptiFlow</span>
+              <span className={isLandingPage ? "text-xl font-bold tracking-tight text-[#0B3D2E]" : "font-extrabold text-3xl tracking-tighter text-[#10241E]"}>AptiFlow</span>
             </Link>
           </div>
 
           {/* Centered Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
-            {userRole === 'guest' ? (
+            {userRole === 'guest' || isLandingPage ? (
               <>
-                <a href="/#features" className="text-[15px] font-extrabold text-[#14724F] hover:text-[#10241E] transition-colors">Features</a>
-                <a href="/#topics" className="text-[15px] font-extrabold text-[#14724F] hover:text-[#10241E] transition-colors">Topics</a>
-                <a href="/#how-it-works" className="text-[15px] font-extrabold text-[#14724F] hover:text-[#10241E] transition-colors">How it works</a>
-                <a href="/#faq" className="text-[15px] font-extrabold text-[#14724F] hover:text-[#10241E] transition-colors">Quality & FAQ</a>
+                <a href="/#features" className={isLandingPage ? "text-sm font-bold text-[#0B3D2E]/80 hover:text-[#0B3D2E] transition-colors" : "text-[15px] font-extrabold text-[#14724F] hover:text-[#10241E] transition-colors"}>Features</a>
+                <a href="/#topics" className={isLandingPage ? "text-sm font-bold text-[#0B3D2E]/80 hover:text-[#0B3D2E] transition-colors" : "text-[15px] font-extrabold text-[#14724F] hover:text-[#10241E] transition-colors"}>Topics</a>
+                <a href="/#how-it-works" className={isLandingPage ? "text-sm font-bold text-[#0B3D2E]/80 hover:text-[#0B3D2E] transition-colors" : "text-[15px] font-extrabold text-[#14724F] hover:text-[#10241E] transition-colors"}>How it works</a>
+                <a href="/#faq" className={isLandingPage ? "text-sm font-bold text-[#0B3D2E]/80 hover:text-[#0B3D2E] transition-colors" : "text-[15px] font-extrabold text-[#14724F] hover:text-[#10241E] transition-colors"}>Quality & FAQ</a>
               </>
             ) : (
               <div className="flex items-center gap-6">
@@ -100,15 +100,17 @@ export function Navbar({ userRole = 'guest', onLogout }) {
 
           {/* Right Actions */}
           <div className="hidden md:flex items-center gap-6">
-            <ThemeToggle />
             
-            {userRole === 'guest' ? (
+            {userRole === 'guest' || isLandingPage ? (
               <>
-                <Link to="/login" className="text-[15px] font-extrabold text-[#5B6F67] hover:text-[#10241E] transition-colors">
+                <Link to="/login" className="text-sm font-bold text-[#0B3D2E] hover:text-[#10B981] transition-colors">
                   Log in
                 </Link>
-                <Link to="/register" className="bg-[#10241E] text-white px-6 py-2.5 rounded-full text-[15px] font-bold hover:bg-[#1A3A30] transition-colors shadow-md">
+                <Link to="/register" className="text-sm font-bold bg-[#0B3D2E] text-white px-5 py-2.5 rounded-full hover:bg-[#07291F] hover:shadow-lg transition-all">
                   Get started
+                </Link>
+                <Link to="/dashboard" className="p-2 rounded-full bg-[#0B3D2E] text-white flex items-center justify-center hover:bg-[#07291F] hover:shadow-lg transition-all">
+                  <User className="w-4 h-4" />
                 </Link>
               </>
             ) : (
@@ -123,9 +125,14 @@ export function Navbar({ userRole = 'guest', onLogout }) {
             )}
           </div>
 
-          {/* Mobile menu button */}
           <div className="flex items-center md:hidden gap-2">
-            <ThemeToggle />
+            {(userRole === 'guest' || isLandingPage) && (
+              <>
+                <Link to="/dashboard" className="p-2 rounded-full bg-[#0B3D2E] text-white flex items-center justify-center">
+                  <User className="w-4 h-4" />
+                </Link>
+              </>
+            )}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 rounded-lg text-secondary hover:text-primary focus-visible"

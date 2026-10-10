@@ -9,7 +9,6 @@ import { EmptyState, ErrorState } from '../components/common/States';
 import { Modal, ConfirmDialog } from '../components/common/Modal';
 import { useToast } from '../components/common/Toast';
 import { Pagination } from '../components/common/Pagination';
-import { ThemeToggle } from '../components/common/ThemeToggle';
 import { Mail, CheckCircle, AlertCircle, AlertTriangle, ArrowRight, Brain } from 'lucide-react';
 
 export default function Styleguide() {
@@ -132,12 +131,6 @@ export default function Styleguide() {
         <GlassCard>
           <Pagination page={page} totalPages={10} onChange={setPage} />
         </GlassCard>
-      </section>
-
-      {/* Theme */}
-      <section className="space-y-6">
-        <h2 className="text-2xl font-bold text-primary border-b border-glass-border pb-2">Theme</h2>
-        <ThemeToggle />
       </section>
 
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title="Sample Modal">

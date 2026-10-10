@@ -204,7 +204,7 @@ export default function Leaderboard() {
 
             {/* Rank 1 - Gold */}
             {topThree[0] && (
-              <GlassCard className="flex flex-col items-center p-6 text-center h-[310px] relative border-t-4 border-[#EAB308] shadow-[0_0_20px_rgba(234,179,8,0.15)] bg-yellow-50/30 dark:bg-yellow-900/10">
+              <GlassCard className="flex flex-col items-center p-6 text-center h-[310px] relative border-t-4 border-[#EAB308] shadow-[0_0_20px_rgba(234,179,8,0.15)] bg-yellow-50/30">
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-[#EAB308] text-white text-[10px] font-black rounded-full uppercase tracking-wider flex items-center gap-1 shadow-md">
                   <Trophy className="w-3 h-3" /> Pace Setter
                 </div>
@@ -289,7 +289,7 @@ export default function Leaderboard() {
           <GlassCard className="overflow-hidden p-0">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse min-w-[700px]">
-                <thead className="bg-[#F8FAFC] dark:bg-white/5 border-b border-glass-border">
+                <thead className="bg-[#F8FAFC] border-b border-glass-border">
                   <tr>
                     <th className="p-4 w-20 text-xs font-bold text-secondary uppercase tracking-widest text-center">Rank</th>
                     <th className="p-4 text-xs font-bold text-secondary uppercase tracking-widest">Student</th>

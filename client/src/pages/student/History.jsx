@@ -111,7 +111,7 @@ export default function History() {
         <GlassCard className="overflow-hidden p-0 border-none shadow-lg">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse min-w-[900px]">
-              <thead className="bg-[#F8FAFC] dark:bg-white/5 border-b border-glass-border">
+              <thead className="bg-[#F8FAFC] border-b border-glass-border">
                 <tr>
                   <th className="p-5 text-xs font-bold text-secondary uppercase tracking-widest w-[35%]">Test / Module</th>
                   <th className="p-5 text-xs font-bold text-secondary uppercase tracking-widest">Format</th>
@@ -174,7 +174,7 @@ export default function History() {
           </div>
           
           {/* Custom Pagination Footer */}
-          <div className="flex flex-col sm:flex-row items-center justify-between p-5 bg-[#F8FAFC] dark:bg-white/5 border-t border-glass-border gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between p-5 bg-[#F8FAFC] border-t border-glass-border gap-4">
             <div className="text-xs font-medium text-secondary">
               Showing <span className="font-bold text-primary">{((page - 1) * limit) + 1}</span>-
               <span className="font-bold text-primary">{Math.min(page * limit, total)}</span> of <span className="font-bold text-primary">{total}</span> attempts
