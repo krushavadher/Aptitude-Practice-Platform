@@ -12,7 +12,7 @@ export function Footer() {
           
           <div className="text-center md:text-left max-w-sm">
             <div className="mb-6 flex justify-center md:justify-start">
-              <span className="text-2xl font-extrabold text-[#0B3D2E] tracking-tight">{logo}</span>
+              <span className="text-3xl font-extrabold text-[#0B3D2E] tracking-tighter">{logo}</span>
             </div>
             <p className="text-[15px] font-medium text-[#0B3D2E]/70 leading-relaxed">{description}</p>
           </div>

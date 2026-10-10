@@ -38,9 +38,9 @@ export default function Landing() {
         <div className="max-w-[1150px] mx-auto grid lg:grid-cols-2 gap-8 items-center">
           {/* Left Text */}
           <div className="space-y-6 relative z-10 text-center lg:text-left pr-0 lg:pr-4">
-            
 
-            
+
+
             <h1 className="text-[44px] sm:text-[52px] lg:text-[64px] font-extrabold text-[#10241E] leading-[1.05] tracking-tight">
               Practice smarter.<br />
               Perform better <br />
@@ -49,11 +49,11 @@ export default function Landing() {
                 <span className="absolute bottom-[-8px] md:bottom-[-20px] left-0 w-full h-[5px] sm:h-[6px] bg-[#14724F] -rotate-[1.5deg] transform origin-center rounded-full"></span>
               </span>
             </h1>
-            
+
             <p className="text-base md:text-[17px] text-[#5B6F67] max-w-[480px] mx-auto lg:mx-0 leading-[1.6] font-medium">
               Master Quantitative, Logical Reasoning, and Verbal Ability with curated problem sets, high-yield shortcuts, and AI-generated challenges rigorously vetted by exam toppers.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
               <Link to="/register" className="inline-flex items-center justify-center gap-2 bg-[#024329] text-white px-7 py-3.5 rounded-full font-bold text-[15px] hover:bg-[#012E1B] transition-all shadow-md w-full sm:w-auto">
                 Start practicing free <ArrowRight className="w-4 h-4" />
@@ -62,7 +62,7 @@ export default function Landing() {
                 See how it works
               </Link>
             </div>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-2 pt-6 max-w-[480px] mx-auto lg:mx-0 text-left">
               <div className="flex items-center gap-2 text-[12px] font-bold text-[#5B6F67]">
                 <CheckCircle2 className="w-4 h-4 text-[#14724F]" strokeWidth={2.5} /> Admin-reviewed questions
@@ -86,10 +86,10 @@ export default function Landing() {
                   aptiflow.com/practice/quantitative
                 </div>
               </div>
-              
+
               {/* Inner dashed area */}
               <div className="bg-white/80 backdrop-blur-sm rounded-[16px] border-2 border-dashed border-[#A3E0C1] h-[190px] relative p-4 flex flex-col justify-between overflow-hidden">
-                
+
                 {/* Skeletons background */}
                 <div className="w-full flex justify-between items-center opacity-40">
                   <div className="w-24 h-2 bg-[#C5D0CA] rounded-full"></div>
@@ -113,7 +113,7 @@ export default function Landing() {
                 {/* Floating Solid Card */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-[0_15px_35px_rgba(0,0,0,0.08)] p-3 w-[210px] flex flex-col items-center text-center z-10 border border-slate-50">
                   <div className="w-6 h-6 mb-1.5 text-[#14724F]">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><rect width="20" height="14" x="2" y="3" rx="2" /><line x1="8" x2="16" y1="21" y2="21" /><line x1="12" x2="12" y1="17" y2="21" /></svg>
                   </div>
                   <h3 className="text-[#10241E] text-[13px] font-extrabold mb-0.5 tracking-tight">Live Exam Workspace</h3>
                   <p className="text-[#5B6F67] text-[8px] font-medium leading-tight mb-2">Interactive Speed Test & Solution Diagnostics</p>
@@ -182,7 +182,7 @@ export default function Landing() {
             <h2 className="text-4xl md:text-5xl font-extrabold text-[#10241E] tracking-tight">{topics.headline}</h2>
             <p className="text-lg text-[#5B6F67]">{topics.subtext}</p>
           </div>
-          
+
           <div className="grid md:grid-cols-12 gap-5 lg:gap-6">
             {/* Box 1 (Quant) */}
             <div className="md:col-span-8 bg-white rounded-[24px] p-6 lg:p-8 shadow-[0_15px_40px_rgb(0,0,0,0.04)] flex flex-col justify-between">
@@ -277,12 +277,12 @@ export default function Landing() {
             <p className="text-lg text-[#5B6F67] leading-relaxed max-w-lg">
               No more flipping to back pages or deciphering cryptic answer sheets. Every problem is paired with a direct conceptual breakdown and a speed shortcut method.
             </p>
-            
+
             <ul className="space-y-5 pt-4">
               {[
-                {title: "Adaptive difficulty", desc: "Smooth ramp-up from baseline basics to multi-step challenges."},
-                {title: "Formula hints on demand", desc: "Peek at underlying equations without revealing the final answer."},
-                {title: "Alternate methods", desc: "Learn both formal algebraic and 20-second elimination strategies."}
+                { title: "Adaptive difficulty", desc: "Smooth ramp-up from baseline basics to multi-step challenges." },
+                { title: "Formula hints on demand", desc: "Peek at underlying equations without revealing the final answer." },
+                { title: "Alternate methods", desc: "Learn both formal algebraic and 20-second elimination strategies." }
               ].map(b => (
                 <li key={b.title} className="flex gap-3.5 max-w-lg">
                   <CheckCircle2 className="w-5 h-5 text-[#14724F] flex-shrink-0 mt-0.5" />
@@ -298,41 +298,41 @@ export default function Landing() {
           {/* Right Mock UI */}
           <div className="bg-white p-4 md:p-6 rounded-[32px] shadow-[0_20px_50px_rgba(20,114,79,0.05)] border border-[#EAF3EF] max-w-[480px] w-full mx-auto h-fit">
             <div className="bg-[#F5F9F7] rounded-3xl p-5 md:p-6 space-y-5">
-               
-               <div className="flex justify-between items-center text-[10px] font-bold text-[#5B6F67]">
-                 <span className="bg-[#EAF3EF] px-2.5 py-1 rounded-full text-[#14724F]">Question 4 of 25 • Quant</span>
-                 <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5"/> Avg. time: 48s</span>
-               </div>
-               
-               <p className="text-[#10241E] font-medium leading-relaxed text-[13px]">
-                 A train 180 meters long is traveling at 54 km/h. How many seconds does it take to pass a telegraph post by the track side?
-               </p>
-               
-               <div className="space-y-2.5">
-                 <div className="bg-white border border-[#EAF3EF] rounded-xl p-3 flex items-center gap-3 shadow-sm opacity-60">
-                   <div className="w-7 h-7 rounded-full border border-[#C5D0CA] flex items-center justify-center text-[11px] font-bold text-[#5B6F67]">A</div>
-                   <span className="text-[#10241E] font-medium text-[13px]">10 seconds</span>
-                 </div>
-                 <div className="bg-[#EAF3EF] border-[1.5px] border-[#14724F] rounded-xl p-3 flex items-center gap-3 shadow-sm">
-                   <div className="w-7 h-7 rounded-full bg-[#14724F] flex items-center justify-center text-white shadow-sm"><Check className="w-4 h-4 stroke-[3]"/></div>
-                   <span className="text-[#10241E] font-bold text-[13px]">12 seconds</span>
-                 </div>
-                 <div className="bg-white border border-[#EAF3EF] rounded-xl p-3 flex items-center gap-3 shadow-sm opacity-60">
-                   <div className="w-7 h-7 rounded-full border border-[#C5D0CA] flex items-center justify-center text-[11px] font-bold text-[#5B6F67]">C</div>
-                   <span className="text-[#10241E] font-medium text-[13px]">14 seconds</span>
-                 </div>
-               </div>
-               
-               <div className="bg-[#14724F]/10 rounded-xl p-4 border border-[#14724F]/20 mt-6 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-[#14724F]/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-                  <div className="flex items-center gap-1.5 text-[#14724F] font-extrabold mb-2 relative z-10 text-[11px]">
-                     <Target className="w-4 h-4"/> Shortcut Explanation
-                  </div>
-                  <div className="text-[11px] text-[#10241E]/90 space-y-1 relative z-10 font-medium">
-                     <p>Convert speed: <span className="bg-white/50 px-1 rounded font-bold">54 × (5/18) = 15 m/s</span>.</p>
-                     <p>Time = Distance / Speed = <span className="bg-white/50 px-1 rounded font-bold">180 / 15 = 12s</span>.</p>
-                  </div>
-               </div>
+
+              <div className="flex justify-between items-center text-[10px] font-bold text-[#5B6F67]">
+                <span className="bg-[#EAF3EF] px-2.5 py-1 rounded-full text-[#14724F]">Question 4 of 25 • Quant</span>
+                <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> Avg. time: 48s</span>
+              </div>
+
+              <p className="text-[#10241E] font-medium leading-relaxed text-[13px]">
+                A train 180 meters long is traveling at 54 km/h. How many seconds does it take to pass a telegraph post by the track side?
+              </p>
+
+              <div className="space-y-2.5">
+                <div className="bg-white border border-[#EAF3EF] rounded-xl p-3 flex items-center gap-3 shadow-sm opacity-60">
+                  <div className="w-7 h-7 rounded-full border border-[#C5D0CA] flex items-center justify-center text-[11px] font-bold text-[#5B6F67]">A</div>
+                  <span className="text-[#10241E] font-medium text-[13px]">10 seconds</span>
+                </div>
+                <div className="bg-[#EAF3EF] border-[1.5px] border-[#14724F] rounded-xl p-3 flex items-center gap-3 shadow-sm">
+                  <div className="w-7 h-7 rounded-full bg-[#14724F] flex items-center justify-center text-white shadow-sm"><Check className="w-4 h-4 stroke-[3]" /></div>
+                  <span className="text-[#10241E] font-bold text-[13px]">12 seconds</span>
+                </div>
+                <div className="bg-white border border-[#EAF3EF] rounded-xl p-3 flex items-center gap-3 shadow-sm opacity-60">
+                  <div className="w-7 h-7 rounded-full border border-[#C5D0CA] flex items-center justify-center text-[11px] font-bold text-[#5B6F67]">C</div>
+                  <span className="text-[#10241E] font-medium text-[13px]">14 seconds</span>
+                </div>
+              </div>
+
+              <div className="bg-[#14724F]/10 rounded-xl p-4 border border-[#14724F]/20 mt-6 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-[#14724F]/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                <div className="flex items-center gap-1.5 text-[#14724F] font-extrabold mb-2 relative z-10 text-[11px]">
+                  <Target className="w-4 h-4" /> Shortcut Explanation
+                </div>
+                <div className="text-[11px] text-[#10241E]/90 space-y-1 relative z-10 font-medium">
+                  <p>Convert speed: <span className="bg-white/50 px-1 rounded font-bold">54 × (5/18) = 15 m/s</span>.</p>
+                  <p>Time = Distance / Speed = <span className="bg-white/50 px-1 rounded font-bold">180 / 15 = 12s</span>.</p>
+                </div>
+              </div>
 
             </div>
           </div>
@@ -343,14 +343,14 @@ export default function Landing() {
           {/* Left Mock UI */}
           <div className="bg-white p-4 md:p-6 rounded-[32px] shadow-[0_20px_50px_rgba(20,114,79,0.05)] border border-[#EAF3EF] max-w-[480px] w-full mx-auto h-fit order-2 lg:order-1">
             <div className="bg-[#F5F9F7] rounded-3xl p-5 md:p-6 space-y-5">
-              
+
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#5B6F67]">
                   <div className="w-1.5 h-1.5 rounded-full bg-[#14724F]"></div>
                   Curated Pipeline #Q-9481
                 </div>
                 <div className="bg-[#14724F] text-white px-2.5 py-1 rounded-full text-[9px] font-black tracking-wider flex items-center gap-1 shadow-sm">
-                  <ShieldCheck className="w-3.5 h-3.5"/> Admin Verified
+                  <ShieldCheck className="w-3.5 h-3.5" /> Admin Verified
                 </div>
               </div>
 
@@ -367,13 +367,13 @@ export default function Landing() {
               <div className="grid grid-cols-2 gap-3 mt-4">
                 <div className="bg-white rounded-2xl p-3.5 shadow-sm border border-[#EAF3EF] flex flex-col gap-1">
                   <div className="flex items-center gap-1.5 text-[#10241E] font-bold text-[12px] mb-0.5">
-                    <Check className="w-3.5 h-3.5 text-[#14724F]"/> Zero Ambiguity
+                    <Check className="w-3.5 h-3.5 text-[#14724F]" /> Zero Ambiguity
                   </div>
                   <div className="text-[#5B6F67] text-[10px]">Dual-instructor audited</div>
                 </div>
                 <div className="bg-white rounded-2xl p-3.5 shadow-sm border border-[#EAF3EF] flex flex-col gap-1">
                   <div className="flex items-center gap-1.5 text-[#10241E] font-bold text-[12px] mb-0.5">
-                    <RefreshCw className="w-3.5 h-3.5 text-[#14724F]"/> Novel Variations
+                    <RefreshCw className="w-3.5 h-3.5 text-[#14724F]" /> Novel Variations
                   </div>
                   <div className="text-[#5B6F67] text-[10px]">No outdated copy-paste</div>
                 </div>
@@ -391,12 +391,12 @@ export default function Landing() {
             <p className="text-lg text-[#5B6F67] leading-relaxed max-w-lg">
               Standard question banks reuse the same stale problems from 2012. AptiFlow continuously generates fresh problem variations, but passes each one through human pedagogical gatekeepers before publishing.
             </p>
-            
+
             <ul className="space-y-5 pt-4">
               {[
-                {title: "Never memorize answers", desc: "Train intuition on novel problem setups that test underlying theory."},
-                {title: "Flawless keys", desc: "Every distracter option is hand-verified to ensure true mathematical uniqueness."},
-                {title: "Realistic company styles", desc: "Questions tailored to match TCS NQT, AMCAT, eLitmus, and CAT standards."}
+                { title: "Never memorize answers", desc: "Train intuition on novel problem setups that test underlying theory." },
+                { title: "Flawless keys", desc: "Every distracter option is hand-verified to ensure true mathematical uniqueness." },
+                { title: "Realistic company styles", desc: "Questions tailored to match TCS NQT, AMCAT, eLitmus, and CAT standards." }
               ].map(b => (
                 <li key={b.title} className="flex gap-3.5 max-w-lg">
                   <CheckCircle2 className="w-5 h-5 text-[#14724F] flex-shrink-0 mt-0.5" />
@@ -421,12 +421,12 @@ export default function Landing() {
             <p className="text-lg text-[#5B6F67] leading-relaxed max-w-lg">
               Doing problems untimed is easy. Solving under the ticking clock of a placement drive is completely different. Replicate true exam pressure in a distraction-free cockpit.
             </p>
-            
+
             <ul className="space-y-5 pt-4">
               {[
-                {title: "Strict sectional constraints", desc: "Train time management for strict countdown blocks."},
-                {title: "Negative marking simulation", desc: "Learn when to take an educated guess versus skip."},
-                {title: "Peer percentiles", desc: "See exactly where your speed stands among top aspirants."}
+                { title: "Strict sectional constraints", desc: "Train time management for strict countdown blocks." },
+                { title: "Negative marking simulation", desc: "Learn when to take an educated guess versus skip." },
+                { title: "Peer percentiles", desc: "See exactly where your speed stands among top aspirants." }
               ].map(b => (
                 <li key={b.title} className="flex gap-3.5 max-w-lg">
                   <CheckCircle2 className="w-5 h-5 text-[#14724F] flex-shrink-0 mt-0.5" />
@@ -442,7 +442,7 @@ export default function Landing() {
           {/* Right Mock UI */}
           <div className="bg-white p-4 md:p-6 rounded-[32px] shadow-[0_20px_50px_rgba(20,114,79,0.05)] border border-[#EAF3EF] max-w-[480px] w-full mx-auto h-fit">
             <div className="bg-[#F5F9F7] rounded-3xl p-5 md:p-6 space-y-5">
-              
+
               <div className="flex justify-between items-start border-b border-[#EAF3EF] pb-5 mb-5">
                 <div>
                   <div className="text-[#10241E] font-bold text-[14px]">National Mock Drive #14</div>
@@ -456,12 +456,12 @@ export default function Landing() {
               <div>
                 <div className="text-[#5B6F67] text-[11px] font-bold mb-3">Question Navigation Palette (30 Total):</div>
                 <div className="flex flex-wrap gap-2">
-                  {[1,2,3,4,5].map(n => (
+                  {[1, 2, 3, 4, 5].map(n => (
                     <div key={n} className="w-7 h-7 rounded-full bg-[#14724F] text-white flex items-center justify-center text-[11px] font-bold shadow-sm">
                       {n}
                     </div>
                   ))}
-                  {[6,7,8,9,10].map(n => (
+                  {[6, 7, 8, 9, 10].map(n => (
                     <div key={n} className="w-7 h-7 rounded-full bg-white border border-[#C5D0CA] text-[#5B6F67] flex items-center justify-center text-[11px] font-bold">
                       {n}
                     </div>
@@ -521,7 +521,7 @@ export default function Landing() {
               <ShieldCheck className="w-6 h-6 text-[#14724F]" />
             </div>
             <h2 className="text-3xl md:text-[42px] font-extrabold text-[#10241E] tracking-tight leading-tight">
-              Quality You Can Rely On: AI Drafted,<br/> Human Admin Verified
+              Quality You Can Rely On: AI Drafted,<br /> Human Admin Verified
             </h2>
             <p className="text-[15px] text-[#5B6F67] leading-relaxed max-w-2xl mx-auto font-medium">
               Generic AI test tools hallucinate incorrect answer keys and impossible constraints. AptiFlow combines the rapid scalability of LLMs with stringent human pedagogical oversight.
@@ -530,7 +530,7 @@ export default function Landing() {
 
           {/* Cards */}
           <div className="grid md:grid-cols-3 gap-6">
-            
+
             {/* Card 1 */}
             <div className="bg-white rounded-[32px] p-8 shadow-sm">
               <div className="flex justify-between items-start mb-6">
@@ -585,11 +585,11 @@ export default function Landing() {
             <h2 className="text-3xl md:text-4xl font-extrabold text-[#10241E] tracking-tight">Frequently Asked Questions</h2>
             <p className="text-[14px] text-[#5B6F67] font-medium">Everything you need to know about preparing with the AptiFlow platform.</p>
           </div>
-          
+
           <div className="space-y-4">
             {faqs.map((faq, idx) => (
-              <div 
-                key={idx} 
+              <div
+                key={idx}
                 className="bg-white rounded-[16px] overflow-hidden cursor-pointer shadow-sm transition-all border border-[#EAF3EF]"
                 onClick={() => setActiveFaq(activeFaq === idx ? -1 : idx)}
               >
@@ -626,15 +626,15 @@ export default function Landing() {
               <div className="w-1.5 h-1.5 rounded-full bg-[#4ADE80]"></div>
               READY TO BEGIN
             </div>
-            
+
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-6 leading-[1.1]">
               Start your aptitude practice today
             </h2>
-            
+
             <p className="text-[#A3B8B0] text-base mb-10 max-w-lg font-medium leading-relaxed">
               Join over 25,000+ candidates sharpening their problem-solving speed and accuracy. Free access included, no credit card required.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row items-center gap-4 mb-10 w-full sm:w-auto justify-center">
               <Link to="/register" className="w-full sm:w-auto bg-white text-[#10241E] px-8 py-3.5 rounded-full font-bold text-sm hover:bg-[#F5F9F7] transition-colors flex items-center justify-center gap-2">
                 Get started for free <ArrowRight className="w-4 h-4" />
@@ -643,7 +643,7 @@ export default function Landing() {
                 Browse all question topics
               </Link>
             </div>
-            
+
             <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-[11px] font-bold text-[#A3B8B0]">
               <div className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5" /> Instant access</div>
               <div className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5" /> No card needed</div>

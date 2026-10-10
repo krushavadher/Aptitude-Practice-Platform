@@ -94,165 +94,172 @@ export default function Dashboard() {
   const COLORS = ['var(--primary)', 'var(--teal)', 'var(--success)', 'var(--warning)', '#8B5CF6', '#EC4899', '#06B6D4'];
 
   return (
-    <div className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-4 pb-24 space-y-6">
-
+    <div className="flex-1 w-full flex flex-col pb-24">
+      
       {/* Banner */}
-      <GlassCard className="card-solid-green relative overflow-hidden border-none shadow-md p-2">
-        <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-30"></div>
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 p-2">
-          <div className="flex items-center gap-4">
-            {user?.avatar && (
-              <img src={getImageUrl(user.avatar)} alt="Profile" className="w-16 h-16 rounded-full border-2 border-white object-cover" />
-            )}
+      <div className="w-full bg-white/30 backdrop-blur-2xl border-b border-white/60 relative overflow-hidden">
+        <div className="absolute top-0 right-0 bottom-0 w-[60%] bg-gradient-to-l from-[#E6F4EA] to-transparent opacity-60"></div>
+        <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="flex items-center gap-6">
+            <div className="w-[84px] h-[84px] rounded-full bg-[#E0EFE5] flex items-center justify-center text-[32px] font-bold text-[#174A33] shrink-0 border border-white/50 shadow-sm">
+              {user?.avatar ? (
+                <img src={getImageUrl(user.avatar)} alt="Profile" className="w-full h-full rounded-full object-cover" />
+              ) : (
+                user.name.charAt(0).toUpperCase()
+              )}
+            </div>
             <div>
-              <div className="text-xs font-semibold tracking-[0.08em] text-[color:var(--mint)] uppercase mb-2">Academic Telemetry • Active Session</div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-2">Welcome back, {user.name}</h1>
-              <p className="text-white/85 text-base">Track your progress and continue your preparation.</p>
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-2 h-2 rounded-full bg-[#22C55E]"></div>
+                <span className="text-[11px] font-bold text-[#348B69] tracking-wider uppercase">Active Session</span>
+              </div>
+              <h1 className="text-[40px] leading-tight font-extrabold text-[#132B20] tracking-tight mb-1">
+                Welcome back, {user.name.split(' ')[0]}
+              </h1>
+              <p className="text-[#5B6F67] text-[15px]">Track your progress and continue your preparation.</p>
             </div>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
-            <Button variant="secondary" className="bg-transparent shadow-sm whitespace-nowrap text-white border border-white/45 hover:bg-white/12" leftIcon={<Clock className="w-4 h-4" />} onClick={() => navigate('/test/setup')}>
+            <Button className="bg-[#133224] text-white px-6 py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2 hover:bg-[#0a2017] transition-colors shadow-lg shadow-[#133224]/20 border-none h-auto" leftIcon={<Clock className="w-4 h-4" />} onClick={() => navigate('/test/setup')}>
               Start a Timed Test
             </Button>
-            <Button className="bg-white/20 text-white font-semibold hover:bg-white/30 border border-white/45 shadow-md whitespace-nowrap" leftIcon={<Play className="w-4 h-4" />} onClick={() => navigate('/topics')}>
+            <Button className="bg-white/50 backdrop-blur-sm text-[#133224] border border-white/60 px-6 py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2 hover:bg-white/80 transition-colors shadow-sm h-auto" leftIcon={<Play className="w-4 h-4 fill-current" />} onClick={() => navigate('/topics')}>
               Practice Questions
             </Button>
           </div>
         </div>
-      </GlassCard>
+      </div>
+
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-8 space-y-6 flex-1">
 
       {/* Stat Cards */}
       <div className="grid md:grid-cols-2 gap-6">
-        <GlassCard padding="p-6" className="card-tint-green">
-          <div className="flex items-start justify-between">
-            <div>
-              <div className="text-xs font-bold text-secondary uppercase tracking-wider mb-2">Cumulative Evaluated Tests</div>
-              <div className="text-4xl font-black text-primary mb-1">{totalAttempts}</div>
-              <div className="text-xs text-secondary">Tests taken across all modules</div>
-            </div>
-            <div className="w-12 h-12 rounded-xl bg-[color:var(--primary-soft)] flex items-center justify-center shadow-sm">
-              <CheckSquare className="w-6 h-6 text-[color:var(--primary)]" />
-            </div>
+        <div className="bg-white/30 backdrop-blur-xl rounded-3xl p-6 shadow-[0_4px_24px_-8px_rgba(0,0,0,0.05)] border border-white/60 flex items-start justify-between">
+          <div>
+            <div className="text-[11px] font-bold text-[#64748B] uppercase tracking-[0.1em] mb-2">Tests Completed</div>
+            <div className="text-[40px] leading-[1] font-black text-[#132B20] mb-1.5">{totalAttempts}</div>
+            <div className="text-[13px] text-[#64748B]">Taken across all modules</div>
           </div>
-        </GlassCard>
+          <div className="w-[42px] h-[42px] rounded-xl bg-[#E6F0EB] flex items-center justify-center border border-white/50">
+            <CheckSquare className="w-5 h-5 text-[#247D57]" />
+          </div>
+        </div>
 
-        <GlassCard padding="p-6" className="card-tint-teal">
-          <div className="flex items-start justify-between">
-            <div>
-              <div className="text-xs font-bold text-secondary uppercase tracking-wider mb-2">Benchmark Mean Score</div>
-              <div className="flex items-baseline gap-3 mb-1">
-                <div className="text-4xl font-black text-primary">{Math.round(averageScore * 10) / 10}%</div>
-                {averageScore > 70 && <span className="text-xs font-bold text-success-text bg-success/10 px-2 py-0.5 rounded-full border border-success/20">+ Good</span>}
-              </div>
-              <div className="text-xs text-secondary">Average score across all sessions</div>
-            </div>
-            <div className="w-12 h-12 rounded-xl bg-[color:var(--teal-soft)] flex items-center justify-center shadow-sm">
-              <TrendingUp className="w-6 h-6 text-[color:var(--teal)]" />
-            </div>
+        <div className="bg-white/30 backdrop-blur-xl rounded-3xl p-6 shadow-[0_4px_24px_-8px_rgba(0,0,0,0.05)] border border-white/60 flex items-start justify-between">
+          <div>
+            <div className="text-[11px] font-bold text-[#64748B] uppercase tracking-[0.1em] mb-2">Average Score</div>
+            <div className="text-[40px] leading-[1] font-black text-[#132B20] mb-1.5">{Math.round(averageScore)}%</div>
+            <div className="text-[13px] text-[#64748B]">Average across all sessions</div>
           </div>
-        </GlassCard>
+          <div className="w-[42px] h-[42px] rounded-xl bg-[#E6F0EB] flex items-center justify-center border border-white/50">
+            <TrendingUp className="w-5 h-5 text-[#247D57]" />
+          </div>
+        </div>
       </div>
 
       {/* Charts Section */}
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-2 gap-6">
         {/* Progress History Chart */}
-        <GlassCard className="lg:col-span-2 pt-6 pb-2 px-2 sm:px-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 px-4">
+        <div className="bg-white/30 backdrop-blur-xl rounded-3xl p-6 shadow-[0_4px_24px_-8px_rgba(0,0,0,0.05)] border border-white/60">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
-              <h2 className="text-xl font-bold text-primary mb-1">Progress History</h2>
-              <p className="text-xs text-secondary">Score trajectory progression across your recent evaluations</p>
+              <h2 className="text-[22px] font-bold text-[#132B20] mb-1">Progress History</h2>
+              <p className="text-[13px] text-[#64748B]">Score trend across your recent tests</p>
             </div>
-            <div className="flex items-center gap-4 text-xs font-medium text-secondary">
-              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-[color:var(--primary)]"></div> Test Attempt %</div>
-              <div className="flex items-center gap-1.5"><div className="w-4 h-0.5 bg-gray-400 border-t border-dashed border-[color:var(--text-muted)]"></div> Baseline (70%)</div>
+            <div className="flex items-center gap-4 text-[11px] font-semibold text-[#64748B]">
+              <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-[#247D57]"></div> Score</div>
+              <div className="flex items-center gap-1.5"><div className="w-3 h-0 border-t border-dashed border-[#94A3B8]"></div> Baseline 70%</div>
             </div>
           </div>
 
-          <div className="h-72 w-full">
+          <div className="h-[280px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={chartData} margin={{ top: 20, right: 20, left: -25, bottom: 0 }}>
                 <defs>
-                  <linearGradient id="colorAccuracy" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.12} />
-                    <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
+                  <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#247D57" stopOpacity={0.15} />
+                    <stop offset="95%" stopColor="#247D57" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke={themeColors.grid} vertical={false} opacity={0.5} />
-                <XAxis dataKey="name" stroke={themeColors.grid} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} axisLine={false} tickLine={false} dy={10} />
-                <YAxis stroke={themeColors.grid} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} axisLine={false} tickLine={false} domain={[0, 100]} ticks={[50, 75, 85, 100]} tickFormatter={(val) => `${val}%`} />
-                <Tooltip
-                  contentStyle={{ backgroundColor: 'var(--glass-bg-strong)', borderColor: 'var(--glass-border)', borderRadius: '0.75rem', color: 'var(--text-primary)', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                  itemStyle={{ color: 'var(--primary)', fontWeight: 'bold' }}
-                  formatter={(value) => [`${value}%`, 'Accuracy']}
-                  labelStyle={{ color: 'var(--text-secondary)', marginBottom: '0.25rem', fontSize: '0.875rem' }}
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F1F5F9" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12, fontWeight: 500 }} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12, fontWeight: 500 }} domain={[0, 100]} ticks={[0, 25, 50, 75, 100]} tickFormatter={(val) => `${val}%`} />
+                <Tooltip 
+                  contentStyle={{ borderRadius: '12px', border: '1px solid #E2E8F0', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
+                  labelStyle={{ fontWeight: 'bold', color: '#132B20' }}
+                  itemStyle={{ color: '#247D57', fontWeight: 600 }}
+                  formatter={(value) => [`${value}%`, 'Score']}
                 />
-                <ReferenceLine y={70} stroke="var(--text-muted)" strokeDasharray="3 3" opacity={0.5} />
-                <Area
-                  type="monotone"
-                  dataKey="accuracy"
-                  stroke="var(--primary)"
-                  strokeWidth={2}
-                  fillOpacity={1}
-                  fill="url(#colorAccuracy)"
-                  activeDot={{ r: 6, strokeWidth: 2, stroke: 'var(--primary)', fill: '#fff' }}
-                  dot={{ r: 4, fill: '#fff', stroke: 'var(--primary)', strokeWidth: 2 }}
-                  label={{ position: 'top', fill: 'var(--text-primary)', fontSize: 12, fontWeight: 600, formatter: (val) => `${val}%`, dy: -10 }}
+                <ReferenceLine y={70} stroke="#64748B" strokeDasharray="4 4" />
+                <Area 
+                  type="monotone" 
+                  dataKey="accuracy" 
+                  stroke="#247D57" 
+                  strokeWidth={3} 
+                  fill="url(#colorScore)" 
+                  activeDot={{ r: 6, fill: '#fff', stroke: '#247D57', strokeWidth: 3 }}
+                  dot={{ r: 5, fill: '#fff', stroke: '#247D57', strokeWidth: 2 }}
+                  label={{ position: 'top', fill: '#132B20', fontSize: 13, fontWeight: 700, formatter: (val) => `${val}%`, dy: -12 }}
                 />
               </AreaChart>
             </ResponsiveContainer>
           </div>
-        </GlassCard>
+        </div>
 
         {/* Practice Distribution Pie Chart */}
-        <GlassCard className="pt-6 pb-2 px-2 sm:px-6 flex flex-col">
-          <div className="mb-4 px-4 text-center sm:text-left">
-            <h2 className="text-xl font-bold text-primary mb-1">Practice Distribution</h2>
-            <p className="text-xs text-secondary">Breakdown of evaluated tests by topic</p>
+        <div className="bg-white/30 backdrop-blur-xl rounded-3xl p-6 shadow-[0_4px_24px_-8px_rgba(0,0,0,0.05)] border border-white/60 flex flex-col">
+          <div className="mb-4">
+            <h2 className="text-[22px] font-bold text-[#132B20] mb-1">Practice Distribution</h2>
+            <p className="text-[13px] text-[#64748B]">Tests taken by topic</p>
           </div>
-          <div className="h-72 w-full flex-1 mt-2">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={pieData}
-                  cx="50%"
-                  cy="45%"
-                  innerRadius={60}
-                  outerRadius={85}
-                  paddingAngle={4}
-                  dataKey="value"
-                  stroke="var(--glass-border)"
-                  strokeWidth={2}
-                >
-                  {pieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  contentStyle={{ backgroundColor: 'var(--glass-bg-strong)', borderColor: 'var(--glass-border)', borderRadius: '0.75rem', color: 'var(--text-primary)', boxShadow: '0 8px 16px -4px rgb(0 0 0 / 0.15)', padding: '8px 12px' }}
-                  itemStyle={{ color: 'var(--text-primary)', fontWeight: 'bold', fontSize: '14px' }}
-                  formatter={(value) => [`${value} attempt${value !== 1 ? 's' : ''}`, '']}
-                  labelStyle={{ display: 'none' }}
-                />
-                <Legend 
-                  content={(props) => {
-                    const { payload } = props;
-                    return (
-                      <ul className="flex flex-wrap justify-center gap-x-4 gap-y-2 px-2 max-h-24 overflow-y-auto">
-                        {payload.map((entry, index) => (
-                          <li key={`item-${index}`} className="flex items-center text-xs text-secondary font-medium">
-                            <span className="w-2.5 h-2.5 rounded-full mr-2 shrink-0" style={{ backgroundColor: entry.color }}></span>
-                            <span className="truncate max-w-[120px]" title={entry.value}>{entry.value}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    );
-                  }}
-                  verticalAlign="bottom" 
-                />
-              </PieChart>
-            </ResponsiveContainer>
+          
+          <div className="flex-1 flex flex-col sm:flex-row items-center justify-center sm:justify-around gap-6 mt-4">
+            <div className="h-[180px] w-[180px] relative shrink-0">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={pieData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={55}
+                    outerRadius={85}
+                    paddingAngle={4}
+                    dataKey="value"
+                    stroke="none"
+                  >
+                    {pieData.map((entry, index) => {
+                      const COLORS_PIE = ['#133224', '#247D57', '#69B28D', '#A5D4B8', '#D1E6DA'];
+                      return <Cell key={`cell-${index}`} fill={COLORS_PIE[index % COLORS_PIE.length]} />;
+                    })}
+                  </Pie>
+                  <Tooltip 
+                    contentStyle={{ borderRadius: '12px', border: '1px solid #E2E8F0', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                <span className="text-[28px] leading-none font-black text-[#132B20]">{totalAttempts}</span>
+                <span className="text-xs text-[#64748B] font-medium mt-1">tests</span>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3 w-full flex-1 sm:max-w-[200px] overflow-hidden">
+              {pieData.map((entry, index) => {
+                const COLORS_PIE = ['#133224', '#247D57', '#69B28D', '#A5D4B8', '#D1E6DA'];
+                const percentage = Math.round((entry.value / totalAttempts) * 100);
+                return (
+                  <div key={entry.name} className="flex items-center justify-between gap-3 w-full">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <div className="w-2.5 h-2.5 rounded shrink-0" style={{ backgroundColor: COLORS_PIE[index % COLORS_PIE.length] }}></div>
+                      <span className="text-[12px] font-medium text-[#334155] truncate" title={entry.name}>{entry.name}</span>
+                    </div>
+                    <span className="text-[12px] font-bold text-[#132B20] shrink-0 ml-2">{percentage}%</span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </GlassCard>
+        </div>
       </div>
 
       {/* Topic Performance Grid */}
@@ -289,7 +296,7 @@ export default function Dashboard() {
             const transparentBorder = `color-mix(in srgb, ${badgeColor} 20%, transparent)`;
 
             return (
-              <GlassCard key={stat.topicId} className="flex flex-col h-full border-t-4 p-6" style={{ borderTopColor: badgeColor }}>
+              <div key={stat.topicId} className="flex flex-col h-full p-6 bg-white/30 backdrop-blur-xl rounded-[20px] shadow-[0_4px_24px_-8px_rgba(0,0,0,0.05)] border border-white/60 transition-colors">
                 <div className="flex justify-between items-start mb-4">
                   <div className="text-xs font-bold text-secondary tracking-widest">{category}</div>
                   <div className="px-2 py-1 rounded font-bold text-sm border shadow-sm backdrop-blur-sm" style={{ color: badgeColor, backgroundColor: transparentBg, borderColor: transparentBorder }}>
@@ -327,37 +334,24 @@ export default function Dashboard() {
                 )}
 
                 <Button
-                  className="w-full mt-auto hover:text-white transition-colors shadow-sm backdrop-blur-sm"
-                  style={{ 
-                    backgroundColor: transparentBg, 
-                    borderColor: transparentBorder,
-                    color: badgeColor 
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = badgeColor;
-                    e.currentTarget.style.color = 'white';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = transparentBg;
-                    e.currentTarget.style.color = badgeColor;
-                  }}
+                  className="w-full mt-auto bg-[#E6F0EB] text-[#247D57] border-none hover:bg-[#D1E6DA] transition-colors"
                   rightIcon={<ArrowRight className="w-4 h-4" />}
                   onClick={() => navigate(isMixed ? '/topics' : `/practice/${stat.topicId}`)}
                 >
                   Practice this topic
                 </Button>
-              </GlassCard>
+              </div>
             );
           })}
         </div>
       </div>
 
-      {/* Recent Attempts - Kept as requested by user context but styled to fit */}
-      <section className="pt-4 border-t border-glass-border">
+      {/* Recent Attempts - Styled to match new dashboard theme */}
+      <section className="pt-6">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-bold text-primary">Recent Evaluations</h2>
-          <Link to="/history" className="text-[color:var(--primary)] hover:underline text-sm font-medium flex items-center gap-1 focus-visible outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)] rounded">
-            View complete history <ArrowRight className="w-4 h-4" />
+          <h2 className="text-[18px] font-bold text-[#132B20]">Recent Evaluations</h2>
+          <Link to="/history" className="text-[#247D57] hover:underline text-[13px] font-medium flex items-center gap-1 focus-visible:outline-none rounded">
+            View complete history <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
@@ -371,13 +365,13 @@ export default function Dashboard() {
               <Link
                 key={a._id}
                 to={`/results/${a.testId}`}
-                className="flex flex-col p-4 bg-glass-strong rounded-xl border border-glass-border hover:border-accent/50 transition-colors focus-visible outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                className="flex flex-col p-5 bg-white/30 backdrop-blur-xl rounded-[20px] shadow-[0_4px_24px_-8px_rgba(0,0,0,0.05)] border border-white/60 hover:bg-white/40 transition-colors focus-visible:outline-none"
               >
-                <div className="flex justify-between items-start mb-2">
-                  <span className="font-semibold text-primary truncate pr-2">{topicName}</span>
-                  <span className="font-black text-primary">{acc}%</span>
+                <div className="flex justify-between items-start mb-4">
+                  <span className="text-[14px] font-bold text-[#132B20] truncate pr-2">{topicName}</span>
+                  <span className="text-[16px] font-black text-[#132B20]">{acc}%</span>
                 </div>
-                <div className="flex justify-between items-center text-xs text-secondary mt-auto">
+                <div className="flex justify-between items-center text-[12px] font-medium text-[#64748B] mt-auto">
                   <span>{date}</span>
                   <span>{a.score}/{a.total}</span>
                 </div>
@@ -387,6 +381,7 @@ export default function Dashboard() {
         </div>
       </section>
 
+      </div>
     </div>
   );
 }
