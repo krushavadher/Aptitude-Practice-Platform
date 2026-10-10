@@ -10,7 +10,7 @@ import { ProgressBar } from '../../components/common/ProgressBar';
 import { Loader } from '../../components/common/Loader';
 import { ErrorState, EmptyState } from '../../components/common/States';
 import { CheckCircle, Activity, Award, ArrowRight, Play, BookOpen, AlertTriangle, Clock, TrendingUp, CheckSquare } from 'lucide-react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, PieChart, Pie, Cell, Legend } from 'recharts';
 import { getImageUrl } from '../../utils/getImageUrl';
 
 export default function Dashboard() {
@@ -49,7 +49,7 @@ export default function Dashboard() {
   if (statsError) return <ErrorState message="Failed to load dashboard stats" className="mt-12" />;
   if (attemptsError) return <ErrorState message="Failed to load recent activity" className="mt-12" />;
 
-  const { totalAttempts, averageScore, accuracyPerTopic } = stats;
+  const { totalAttempts, averageScore, accuracyPerTopic, attemptsPerTopic } = stats;
   const recentAttempts = recentAttemptsData.attempts || [];
 
   if (totalAttempts === 0) {
@@ -84,6 +84,14 @@ export default function Dashboard() {
   const filteredTopics = accuracyPerTopic.filter(stat => 
     stat.accuracy > 0 || recentTopicIds.has(stat.topicId)
   ).slice(0, 6);
+
+  // Pie Chart Data
+  const pieData = (attemptsPerTopic || []).map(stat => ({
+    name: stat.topicId === 'mixed' ? 'Mixed Topics' : (topicMap[stat.topicId]?.name || 'Unknown'),
+    value: stat.attempts
+  })).filter(d => d.value > 0);
+  
+  const COLORS = ['var(--primary)', 'var(--teal)', 'var(--success)', 'var(--warning)', '#8B5CF6', '#EC4899', '#06B6D4'];
 
   return (
     <div className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-4 pb-24 space-y-6">
@@ -145,53 +153,107 @@ export default function Dashboard() {
         </GlassCard>
       </div>
 
-      {/* Progress History Chart */}
-      <GlassCard className="pt-6 pb-2 px-2 sm:px-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 px-4">
-          <div>
-            <h2 className="text-xl font-bold text-primary mb-1">Progress History</h2>
-            <p className="text-xs text-secondary">Score trajectory progression across your recent evaluations</p>
+      {/* Charts Section */}
+      <div className="grid lg:grid-cols-3 gap-6">
+        {/* Progress History Chart */}
+        <GlassCard className="lg:col-span-2 pt-6 pb-2 px-2 sm:px-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 px-4">
+            <div>
+              <h2 className="text-xl font-bold text-primary mb-1">Progress History</h2>
+              <p className="text-xs text-secondary">Score trajectory progression across your recent evaluations</p>
+            </div>
+            <div className="flex items-center gap-4 text-xs font-medium text-secondary">
+              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-[color:var(--primary)]"></div> Test Attempt %</div>
+              <div className="flex items-center gap-1.5"><div className="w-4 h-0.5 bg-gray-400 border-t border-dashed border-[color:var(--text-muted)]"></div> Baseline (70%)</div>
+            </div>
           </div>
-          <div className="flex items-center gap-4 text-xs font-medium text-secondary">
-            <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-[color:var(--primary)]"></div> Test Attempt %</div>
-            <div className="flex items-center gap-1.5"><div className="w-4 h-0.5 bg-gray-400 border-t border-dashed border-[color:var(--text-muted)]"></div> Baseline (70%)</div>
-          </div>
-        </div>
 
-        <div className="h-72 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={chartData} margin={{ top: 20, right: 20, left: -25, bottom: 0 }}>
-              <defs>
-                <linearGradient id="colorAccuracy" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.12} />
-                  <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke={themeColors.grid} vertical={false} opacity={0.5} />
-              <XAxis dataKey="name" stroke={themeColors.grid} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} axisLine={false} tickLine={false} dy={10} />
-              <YAxis stroke={themeColors.grid} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} axisLine={false} tickLine={false} domain={[0, 100]} ticks={[50, 75, 85, 100]} tickFormatter={(val) => `${val}%`} />
-              <Tooltip
-                contentStyle={{ backgroundColor: 'var(--glass-bg-strong)', borderColor: 'var(--glass-border)', borderRadius: '0.75rem', color: 'var(--text-primary)', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                itemStyle={{ color: 'var(--primary)', fontWeight: 'bold' }}
-                formatter={(value) => [`${value}%`, 'Accuracy']}
-                labelStyle={{ color: 'var(--text-secondary)', marginBottom: '0.25rem', fontSize: '0.875rem' }}
-              />
-              <ReferenceLine y={70} stroke="var(--text-muted)" strokeDasharray="3 3" opacity={0.5} />
-              <Area
-                type="monotone"
-                dataKey="accuracy"
-                stroke="var(--primary)"
-                strokeWidth={2}
-                fillOpacity={1}
-                fill="url(#colorAccuracy)"
-                activeDot={{ r: 6, strokeWidth: 2, stroke: 'var(--primary)', fill: '#fff' }}
-                dot={{ r: 4, fill: '#fff', stroke: 'var(--primary)', strokeWidth: 2 }}
-                label={{ position: 'top', fill: 'var(--text-primary)', fontSize: 12, fontWeight: 600, formatter: (val) => `${val}%`, dy: -10 }}
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-      </GlassCard>
+          <div className="h-72 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={chartData} margin={{ top: 20, right: 20, left: -25, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorAccuracy" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.12} />
+                    <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke={themeColors.grid} vertical={false} opacity={0.5} />
+                <XAxis dataKey="name" stroke={themeColors.grid} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} axisLine={false} tickLine={false} dy={10} />
+                <YAxis stroke={themeColors.grid} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} axisLine={false} tickLine={false} domain={[0, 100]} ticks={[50, 75, 85, 100]} tickFormatter={(val) => `${val}%`} />
+                <Tooltip
+                  contentStyle={{ backgroundColor: 'var(--glass-bg-strong)', borderColor: 'var(--glass-border)', borderRadius: '0.75rem', color: 'var(--text-primary)', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                  itemStyle={{ color: 'var(--primary)', fontWeight: 'bold' }}
+                  formatter={(value) => [`${value}%`, 'Accuracy']}
+                  labelStyle={{ color: 'var(--text-secondary)', marginBottom: '0.25rem', fontSize: '0.875rem' }}
+                />
+                <ReferenceLine y={70} stroke="var(--text-muted)" strokeDasharray="3 3" opacity={0.5} />
+                <Area
+                  type="monotone"
+                  dataKey="accuracy"
+                  stroke="var(--primary)"
+                  strokeWidth={2}
+                  fillOpacity={1}
+                  fill="url(#colorAccuracy)"
+                  activeDot={{ r: 6, strokeWidth: 2, stroke: 'var(--primary)', fill: '#fff' }}
+                  dot={{ r: 4, fill: '#fff', stroke: 'var(--primary)', strokeWidth: 2 }}
+                  label={{ position: 'top', fill: 'var(--text-primary)', fontSize: 12, fontWeight: 600, formatter: (val) => `${val}%`, dy: -10 }}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </GlassCard>
+
+        {/* Practice Distribution Pie Chart */}
+        <GlassCard className="pt-6 pb-2 px-2 sm:px-6 flex flex-col">
+          <div className="mb-4 px-4 text-center sm:text-left">
+            <h2 className="text-xl font-bold text-primary mb-1">Practice Distribution</h2>
+            <p className="text-xs text-secondary">Breakdown of evaluated tests by topic</p>
+          </div>
+          <div className="h-72 w-full flex-1 mt-2">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  cx="50%"
+                  cy="45%"
+                  innerRadius={60}
+                  outerRadius={85}
+                  paddingAngle={4}
+                  dataKey="value"
+                  stroke="var(--glass-border)"
+                  strokeWidth={2}
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip
+                  contentStyle={{ backgroundColor: 'var(--glass-bg-strong)', borderColor: 'var(--glass-border)', borderRadius: '0.75rem', color: 'var(--text-primary)', boxShadow: '0 8px 16px -4px rgb(0 0 0 / 0.15)', padding: '8px 12px' }}
+                  itemStyle={{ color: 'var(--text-primary)', fontWeight: 'bold', fontSize: '14px' }}
+                  formatter={(value) => [`${value} attempt${value !== 1 ? 's' : ''}`, '']}
+                  labelStyle={{ display: 'none' }}
+                />
+                <Legend 
+                  content={(props) => {
+                    const { payload } = props;
+                    return (
+                      <ul className="flex flex-wrap justify-center gap-x-4 gap-y-2 px-2 max-h-24 overflow-y-auto">
+                        {payload.map((entry, index) => (
+                          <li key={`item-${index}`} className="flex items-center text-xs text-secondary font-medium">
+                            <span className="w-2.5 h-2.5 rounded-full mr-2 shrink-0" style={{ backgroundColor: entry.color }}></span>
+                            <span className="truncate max-w-[120px]" title={entry.value}>{entry.value}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    );
+                  }}
+                  verticalAlign="bottom" 
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </GlassCard>
+      </div>
 
       {/* Topic Performance Grid */}
       <div>

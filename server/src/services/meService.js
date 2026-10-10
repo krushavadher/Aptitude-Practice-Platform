@@ -40,10 +40,11 @@ export const getMyStats = async (userId) => {
 
     const tId = a.topicId ? a.topicId.toString() : 'mixed';
     if (!topicStats[tId]) {
-      topicStats[tId] = { correct: 0, total: 0 };
+      topicStats[tId] = { correct: 0, total: 0, attempts: 0 };
     }
     topicStats[tId].correct += a.score;
     topicStats[tId].total += a.total;
+    topicStats[tId].attempts += 1;
   });
 
   const averageScore = totalScore / totalAttempts;
@@ -53,10 +54,16 @@ export const getMyStats = async (userId) => {
     accuracy: topicStats[topicId].total > 0 ? (topicStats[topicId].correct / topicStats[topicId].total) * 100 : 0
   }));
 
+  const attemptsPerTopic = Object.keys(topicStats).map(topicId => ({
+    topicId,
+    attempts: topicStats[topicId].attempts
+  }));
+
   return {
     totalAttempts,
     averageScore,
-    accuracyPerTopic
+    accuracyPerTopic,
+    attemptsPerTopic
   };
 };
 

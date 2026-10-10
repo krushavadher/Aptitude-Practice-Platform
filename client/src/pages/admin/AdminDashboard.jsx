@@ -6,6 +6,7 @@ import { GlassCard } from '../../components/common/GlassCard';
 import { Loader } from '../../components/common/Loader';
 import { ErrorState } from '../../components/common/States';
 import { Users, FileText, CheckCircle, Clock, BookOpen, AlertCircle } from 'lucide-react';
+import { PieChart, Pie, Cell, Tooltip as RechartsTooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const fetchAdminStats = async () => {
   const { data } = await api.get('/admin/stats');
@@ -23,6 +24,14 @@ export default function AdminDashboard() {
 
   const { users, testsTaken, questions } = stats;
   const totalQuestions = (questions.draft || 0) + (questions.approved || 0) + (questions.rejected || 0);
+
+  const pieData = [
+    { name: 'Approved', value: questions.approved || 0 },
+    { name: 'Pending Review', value: questions.draft || 0 },
+    { name: 'Rejected', value: questions.rejected || 0 }
+  ].filter(d => d.value > 0);
+
+  const COLORS = ['var(--success)', 'var(--warning)', 'var(--danger)', '#4F46E5'];
 
   return (
     <div className="flex-1 max-w-6xl mx-auto w-full p-4 sm:p-6 lg:p-8 space-y-8">
@@ -73,8 +82,51 @@ export default function AdminDashboard() {
         </GlassCard>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        <Link to="/admin/topics" className="group focus-visible outline-none rounded-xl focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2">
+      <div className="grid lg:grid-cols-3 gap-6">
+        {/* Pie Chart */}
+        <GlassCard className="pt-6 pb-2 px-2 sm:px-6 flex flex-col lg:col-span-1">
+          <div className="mb-4 px-4 text-center sm:text-left">
+            <h2 className="text-xl font-bold text-primary mb-1">Questions Database</h2>
+            <p className="text-xs text-secondary">Current status distribution</p>
+          </div>
+          <div className="h-72 w-full flex-1 mt-2">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  cx="50%"
+                  cy="45%"
+                  innerRadius={60}
+                  outerRadius={85}
+                  paddingAngle={4}
+                  dataKey="value"
+                  stroke="var(--glass-border)"
+                  strokeWidth={2}
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <RechartsTooltip
+                  contentStyle={{ backgroundColor: 'var(--glass-bg-strong)', borderColor: 'var(--glass-border)', borderRadius: '0.75rem', color: 'var(--text-primary)', boxShadow: '0 8px 16px -4px rgb(0 0 0 / 0.15)', padding: '8px 12px' }}
+                  itemStyle={{ color: 'var(--text-primary)', fontWeight: 'bold', fontSize: '14px' }}
+                  formatter={(value) => [`${value} question${value !== 1 ? 's' : ''}`, '']}
+                  labelStyle={{ display: 'none' }}
+                />
+                <Legend 
+                  verticalAlign="bottom" 
+                  height={48}
+                  iconType="circle"
+                  wrapperStyle={{ fontSize: '13px', color: 'var(--text-secondary)', fontWeight: 500 }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </GlassCard>
+
+        {/* Action Cards */}
+        <div className="grid md:grid-cols-2 gap-6 lg:col-span-2">
+          <Link to="/admin/topics" className="group focus-visible outline-none rounded-xl focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2">
           <GlassCard className="h-full hover:bg-glass-strong transition-colors border-l-4 border-l-accent p-6 flex items-start gap-4">
             <div className="p-3 bg-glass rounded-lg text-accent">
               <BookOpen className="w-6 h-6" />
@@ -121,6 +173,7 @@ export default function AdminDashboard() {
             </div>
           </GlassCard>
         </Link>
+        </div>
       </div>
     </div>
   );
