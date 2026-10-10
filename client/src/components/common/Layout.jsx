@@ -49,44 +49,50 @@ export function Navbar({ userRole = 'guest', onLogout }) {
   const links = navLinks[userRole] || [];
 
   return (
-    <header className="relative z-40 w-full bg-glass-strong border-b border-border" style={{ backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', boxShadow: 'var(--shadow)' }}>
-      <div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-20">
+    <header className="sticky top-0 z-50 w-full bg-white/30 backdrop-blur-2xl border-b border-white/60 shadow-lg shadow-[#14724F]/10 transition-all">
+      <div className="w-full max-w-[1150px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-24">
+          
+          {/* Logo */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center gap-2 focus-visible rounded-lg px-2 py-1">
-              <span className="font-extrabold text-[28px] tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-[color:var(--primary)] to-[color:var(--teal)] drop-shadow-[0_0_15px_rgba(20,114,79,0.4)]">AptiFlow</span>
+            <Link to="/" className="flex items-center gap-2.5 focus-visible rounded-lg px-2 py-1">
+              <span className="font-extrabold text-xl tracking-tight text-[#10241E]">AptiFlow</span>
             </Link>
           </div>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-2">
-            {links.map(link => (
-              <NavLink key={link.to} to={link.to}>{link.label}</NavLink>
-            ))}
-
-            <div className="w-px h-6 bg-glass-border mx-2" />
-
-            <ThemeToggle />
-
-            {userRole !== 'guest' && (
-              <NavLink to="/profile">
-                <div className="flex items-center gap-2">
-                  <User className="w-4 h-4" />
-                  Profile
-                </div>
-              </NavLink>
-            )}
+          {/* Centered Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+            <a href="/#features" className="text-[13px] font-extrabold text-[#14724F] hover:text-[#10241E] transition-colors">Features</a>
+            <a href="/#topics" className="text-[13px] font-extrabold text-[#14724F] hover:text-[#10241E] transition-colors">Topics</a>
+            <a href="/#how-it-works" className="text-[13px] font-extrabold text-[#14724F] hover:text-[#10241E] transition-colors">How it works</a>
+            <a href="/#faq" className="text-[13px] font-extrabold text-[#14724F] hover:text-[#10241E] transition-colors">Quality & FAQ</a>
           </nav>
+
+          {/* Right Actions */}
+          <div className="hidden md:flex items-center gap-6">
+            <ThemeToggle />
+            
+            <Link to="/login" className="text-[13px] font-extrabold text-[#5B6F67] hover:text-[#10241E] transition-colors">
+              Log in
+            </Link>
+            
+            <Link to="/register" className="bg-[#10241E] text-white px-5 py-2 rounded-full text-[13px] font-bold hover:bg-[#1A3A30] transition-colors shadow-md">
+              Get started
+            </Link>
+            
+            <Link to="/profile" className="w-8 h-8 rounded-full bg-[#10241E] text-white flex items-center justify-center hover:bg-[#1A3A30] transition-colors shadow-md">
+              <User className="w-4 h-4" />
+            </Link>
+          </div>
 
           {/* Mobile menu button */}
           <div className="flex items-center md:hidden gap-2">
             <ThemeToggle />
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-lg text-secondary hover:text-primary hover:bg-glass focus-visible"
-              aria-label="Toggle menu"
+              className="p-2 rounded-lg text-secondary hover:text-primary focus-visible"
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMobileMenuOpen ? <X className="w-6 h-6 text-[#10241E]" /> : <Menu className="w-6 h-6 text-[#10241E]" />}
             </button>
           </div>
         </div>
