@@ -6,7 +6,9 @@ import { Button } from './Button';
 
 function NavLink({ to, children, onClick }) {
   const location = useLocation();
-  const isActive = location.pathname === to || (location.pathname.startsWith(to) && to !== '/') || (to === '/topics' && (location.pathname.startsWith('/practice') || location.pathname.startsWith('/test')));
+  const isActive = location.pathname === to || 
+    (to !== '/' && to !== '/admin' && location.pathname.startsWith(to)) || 
+    (to === '/topics' && (location.pathname.startsWith('/practice') || location.pathname.startsWith('/test')));
 
   return (
     <Link
@@ -47,12 +49,12 @@ export function Navbar({ userRole = 'guest', onLogout }) {
   const links = navLinks[userRole] || [];
 
   return (
-    <header className="sticky top-[12px] mt-[12px] z-40 mx-auto w-[calc(100%-32px)] max-w-[1280px] rounded-[20px] bg-glass-strong border border-border" style={{ backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', boxShadow: 'var(--shadow)' }}>
-      <div className="w-full px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
+    <header className="relative z-40 w-full bg-glass-strong border-b border-border" style={{ backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', boxShadow: 'var(--shadow)' }}>
+      <div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-20">
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-2 focus-visible rounded-lg px-2 py-1">
-              <span className="font-extrabold text-2xl tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-[color:var(--primary)] to-[color:var(--teal)] drop-shadow-[0_0_15px_rgba(20,114,79,0.4)]">AptiFlow</span>
+              <span className="font-extrabold text-[28px] tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-[color:var(--primary)] to-[color:var(--teal)] drop-shadow-[0_0_15px_rgba(20,114,79,0.4)]">AptiFlow</span>
             </Link>
           </div>
 

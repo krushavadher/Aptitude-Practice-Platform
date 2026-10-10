@@ -106,9 +106,54 @@ export const getAdminStats = asyncHandler(async (req, res) => {
 
 export const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find().select('-passwordHash').sort({ createdAt: -1 });
+  // Add an flag indicating if current user is the super admin to the response
+  const firstAdmin = await User.findOne({ role: 'admin' }).sort({ createdAt: 1 });
+  const isSuperAdmin = firstAdmin && req.user._id.toString() === firstAdmin._id.toString();
+
   res.status(200).json({
     success: true,
     data: users,
+    isSuperAdmin, // Pass this to frontend
     message: 'Users retrieved successfully'
+  });
+});
+
+export const updateUserRole = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { role } = req.body;
+
+  if (!['student', 'admin'].includes(role)) {
+    res.status(400);
+    throw new Error('Invalid role');
+  }
+
+  // Find the first admin created
+  const firstAdmin = await User.findOne({ role: 'admin' }).sort({ createdAt: 1 });
+
+  // Check if the current user is the first admin
+  if (!firstAdmin || firstAdmin._id.toString() !== req.user._id.toString()) {
+    res.status(403);
+    throw new Error('Only the Super Admin (first admin) can change roles');
+  }
+
+  // Prevent super admin from demoting themselves
+  if (id === req.user._id.toString() && role !== 'admin') {
+     res.status(400);
+     throw new Error('Super Admin cannot demote themselves');
+  }
+
+  const targetUser = await User.findById(id);
+  if (!targetUser) {
+    res.status(404);
+    throw new Error('User not found');
+  }
+
+  targetUser.role = role;
+  await targetUser.save();
+
+  res.status(200).json({
+    success: true,
+    data: targetUser,
+    message: `User role updated to ${role}`
   });
 });

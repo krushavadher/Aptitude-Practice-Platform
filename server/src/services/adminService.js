@@ -1,4 +1,4 @@
-﻿import Question from '../models/Question.js';
+import Question from '../models/Question.js';
 import Topic from '../models/Topic.js';
 import { ApiError } from '../utils/apiError.js';
 
@@ -20,11 +20,12 @@ export const createManualQuestion = async (questionData, adminId) => {
 };
 
 export const getQuestions = async (query) => {
-  const { status, topicId, difficulty, flagged, page = 1, limit = 20 } = query;
+  const { status, topicId, subtopic, difficulty, flagged, page = 1, limit = 20 } = query;
   
   const filter = {};
   if (status) filter.status = status;
   if (topicId) filter.topicId = topicId;
+  if (subtopic) filter.subtopic = subtopic;
   if (difficulty) filter.difficulty = difficulty;
   
   const pageNum = parseInt(page, 10);

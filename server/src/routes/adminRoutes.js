@@ -8,7 +8,7 @@ import { generateQuestionsSchema, reviewQuestionSchema } from '../validators/aiS
 import { 
   createTopic, updateTopic, deleteTopic,
   createQuestion, getQuestions, updateQuestion, deleteQuestion,
-  generateAiQuestions, reviewQuestion, getAdminStats, getUsers
+  generateAiQuestions, reviewQuestion, getAdminStats, getUsers, updateUserRole
 } from '../controllers/adminController.js';
 import { loginLimiter } from '../middleware/rateLimiter.js';
 
@@ -33,6 +33,7 @@ router.patch('/questions/:id/review', validate(reviewQuestionSchema), reviewQues
 
 // Users
 router.get('/users', getUsers);
+router.patch('/users/:id/role', updateUserRole);
 
 // Stats
 router.get('/stats', getAdminStats);
