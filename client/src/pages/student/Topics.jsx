@@ -157,7 +157,7 @@ export default function Topics() {
         </div>
 
         <div className="flex items-center gap-3 w-full lg:w-auto justify-end">
-          <Button className="w-full lg:w-auto bg-[#E6F0EB] text-[#247D57] hover:bg-[#D1E6DA] border-none shadow-sm whitespace-nowrap text-xs font-bold transition-colors" leftIcon={<BookOpen className="w-4 h-4" />} onClick={() => navigate(`/practice/mixed?difficulty=${difficulty}&limit=${limit}`)}>
+          <Button variant="secondary" className="w-full lg:w-auto bg-[#D6EADF] !text-[#133224] hover:bg-[#C5E1D0] border border-[#133224]/15 shadow-sm whitespace-nowrap text-xs font-bold transition-colors" leftIcon={<BookOpen className="w-4 h-4 !text-[#133224]" />} onClick={() => navigate(`/practice/mixed?difficulty=${difficulty}&limit=${limit}`)}>
             Practice Mode
           </Button>
           <Button className="w-full lg:w-auto bg-[color:var(--primary)] text-white hover:bg-[color:var(--primary-hover)] shadow-md whitespace-nowrap text-xs font-bold" leftIcon={<Clock className="w-4 h-4" />} onClick={() => navigate('/test/setup')}>
@@ -226,7 +226,7 @@ export default function Topics() {
                 <div className="grid grid-cols-2 gap-3 mt-auto relative z-10">
                   <Button
                     variant="secondary"
-                    className="w-full bg-[#E6F0EB] text-[#247D57] hover:bg-[#D1E6DA] font-bold text-xs py-2 border-none transition-colors"
+                    className="w-full bg-[#D6EADF] !text-[#133224] hover:bg-[#C5E1D0] border border-[#133224]/15 font-bold text-xs py-2 transition-colors shadow-sm"
                     onClick={() => navigate(`/practice/${topic._id}?difficulty=${difficulty}&limit=${limit}`)}
                   >
                     Practice

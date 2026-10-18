@@ -123,7 +123,7 @@ export default function Dashboard() {
             <Button className="bg-[#133224] text-white px-6 py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2 hover:bg-[#0a2017] transition-colors shadow-lg shadow-[#133224]/20 border-none h-auto" leftIcon={<Clock className="w-4 h-4" />} onClick={() => navigate('/test/setup')}>
               Start a Timed Test
             </Button>
-            <Button className="bg-white/50 backdrop-blur-sm text-[#133224] border border-white/60 px-6 py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2 hover:bg-white/80 transition-colors shadow-sm h-auto" leftIcon={<Play className="w-4 h-4 fill-current" />} onClick={() => navigate('/topics')}>
+            <Button variant="secondary" className="bg-[#D6EADF] !text-[#133224] border border-[#133224]/15 px-6 py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2 hover:bg-[#C5E1D0] transition-colors shadow-sm h-auto" leftIcon={<Play className="w-4 h-4 fill-current !text-[#133224]" />} onClick={() => navigate('/topics')}>
               Practice Questions
             </Button>
           </div>
@@ -334,8 +334,9 @@ export default function Dashboard() {
                 )}
 
                 <Button
-                  className="w-full mt-auto bg-[#E6F0EB] text-[#247D57] border-none hover:bg-[#D1E6DA] transition-colors"
-                  rightIcon={<ArrowRight className="w-4 h-4" />}
+                  variant="secondary"
+                  className="w-full mt-auto bg-[#D6EADF] !text-[#133224] border border-[#133224]/15 hover:bg-[#C5E1D0] transition-colors shadow-sm font-bold text-xs py-2"
+                  rightIcon={<ArrowRight className="w-4 h-4 !text-[#133224]" />}
                   onClick={() => navigate(isMixed ? '/topics' : `/practice/${stat.topicId}`)}
                 >
                   Practice this topic
