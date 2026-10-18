@@ -1,9 +1,13 @@
-import api from './axios';
+import api, { API_BASE_URL } from './axios';
+
+export { api, API_BASE_URL };
 
 export const authApi = {
   register: async (data) => (await api.post('/auth/register', data)).data.data,
   login: async (data) => (await api.post('/auth/login', data)).data.data,
   getMe: async () => (await api.get('/auth/me')).data.data,
+  forgotPassword: async (data) => (await api.post('/auth/forgot-password', data)).data,
+  resetPassword: async (token, data) => (await api.put(`/auth/reset-password/${token}`, data)).data,
 };
 
 export const topicApi = {
@@ -24,6 +28,7 @@ export const testApi = {
 export const meApi = {
   attempts: async (params) => (await api.get('/me/attempts', { params })).data.data,
   stats: async () => (await api.get('/me/stats')).data.data,
+  updateProfile: async (formData) => (await api.put('/me/profile', formData)).data,
 };
 
 export const adminApi = {

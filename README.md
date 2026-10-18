@@ -192,6 +192,55 @@ All responses use the shape `{ success, data, message }`.
 
 ## Deployment
 
-Planned: backend on Render or Railway, frontend on Vercel or Netlify, database on MongoDB Atlas.
+### 1. Database (MongoDB Atlas)
+1. Create a MongoDB Atlas cluster and database.
+2. In **Network Access**, allow access from anywhere (`0.0.0.0/0`) or configure Render outbound IPs.
+3. In **Database Access**, create a user with read/write access.
+4. Copy your connection string (`MONGO_URI`).
 
-**Live demo:** _coming soon_
+---
+
+### 2. Backend Deployment (Render)
+- **Service Type:** Web Service
+- **Root Directory:** `server`
+- **Environment:** Node
+- **Build Command:** `npm install`
+- **Start Command:** `npm start`
+- **Health Check Path:** `/api/health`
+
+#### Required Environment Variables (Render):
+| Variable | Description | Example |
+|---|---|---|
+| `NODE_ENV` | Environment mode | `production` |
+| `PORT` | Port (set automatically by Render) | `5000` |
+| `MONGO_URI` | MongoDB Atlas connection string | `mongodb+srv://<user>:<password>@cluster.mongodb.net/aptitude-platform?retryWrites=true&w=majority` |
+| `JWT_SECRET` | Secret key for JWT signing | `your_secure_random_string_min_32_chars` |
+| `GEMINI_API_KEY` | Google Gemini API key | `AIzaSy...` |
+| `GEMINI_MODEL` | Gemini model name | `gemini-2.5-flash` |
+| `CLIENT_URL` | Allowed frontend URL(s), comma-separated | `https://your-app.vercel.app,http://localhost:5173` |
+
+#### Optional Environment Variables (Render):
+| Variable | Description | Example |
+|---|---|---|
+| `ADMIN_EMAIL` | Initial admin account email | `admin@example.com` |
+| `ADMIN_PASSWORD` | Initial admin account password | `your_admin_password` |
+| `SMTP_HOST` | SMTP server for password reset | `smtp.mailtrap.io` |
+| `SMTP_PORT` | SMTP port | `2525` |
+| `SMTP_EMAIL` | SMTP username | `your_smtp_user` |
+| `SMTP_PASSWORD` | SMTP password | `your_smtp_password` |
+
+---
+
+### 3. Frontend Deployment (Vercel)
+- **Framework Preset:** Vite
+- **Root Directory:** `client`
+- **Build Command:** `npm run build`
+- **Output Directory:** `dist`
+- **Install Command:** `npm install`
+
+#### Required Environment Variables (Vercel):
+| Variable | Description | Example |
+|---|---|---|
+| `VITE_API_URL` | Full URL to your backend API on Render | `https://your-backend-api.onrender.com/api` |
+
+> **Note on Routing:** `client/vercel.json` is configured with URL rewrites to `/index.html` to ensure client-side React Router navigation works properly on browser refresh.

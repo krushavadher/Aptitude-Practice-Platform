@@ -1,4 +1,4 @@
-﻿import dotenv from 'dotenv';
+import dotenv from 'dotenv';
 dotenv.config();
 
 import app from './app.js';
@@ -11,6 +11,6 @@ connectDB().then(() => {
     console.log(`Server running on port ${PORT}`);
   });
 }).catch(err => {
-  console.error('Failed to connect to database', err);
+  console.error('[Server Error] Failed to initialize database connection:', err.message || err);
   process.exit(1);
 });

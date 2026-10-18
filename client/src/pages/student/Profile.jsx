@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { User, Camera, Upload, Check, AlertCircle, LogOut, Lock } from 'lucide-react';
 import { getImageUrl } from '../../utils/getImageUrl';
+import { meApi } from '../../api';
 
 export default function Profile() {
   const { user, updateUser, logout } = useAuth();
@@ -56,18 +57,7 @@ export default function Profile() {
         formData.append('avatar', avatarFile);
       }
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/me/profile`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: formData,
-      });
-
-      const result = await response.json();
-      if (!response.ok) {
-        throw new Error(result.message || 'Failed to update profile');
-      }
+      const result = await meApi.updateProfile(formData);
 
       updateUser(result.data);
       setAvatarFile(null);

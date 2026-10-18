@@ -7,7 +7,11 @@ import Topic from '../models/Topic.js';
 let aiClient = null;
 const getAiClient = () => {
   if (!aiClient) {
-    aiClient = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error('GEMINI_API_KEY environment variable is missing.');
+    }
+    aiClient = new GoogleGenAI({ apiKey });
   }
   return aiClient;
 };
@@ -35,7 +39,7 @@ export const generateQuestions = async (data) => {
   if (!topic) throw new Error('Topic not found');
 
   const ai = getAiClient();
-  const modelName = process.env.GEMINI_MODEL || 'gemini-3.5-flash';
+  const modelName = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
   const prompt = getGenerationPrompt(topic.name, subtopic, difficulty, count);
 
   let generatedData = null;

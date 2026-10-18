@@ -12,7 +12,23 @@ dotenv.config();
 const app = express();
 
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
-app.use(cors());
+const defaultOrigins = ['http://localhost:5173', 'http://localhost:3000'];
+const configuredOrigins = process.env.CLIENT_URL
+  ? process.env.CLIENT_URL.split(',').map((origin) => origin.trim()).filter(Boolean)
+  : [];
+const allowedOrigins = Array.from(new Set([...defaultOrigins, ...configuredOrigins]));
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow non-browser requests or same-origin
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+      return callback(null, true);
+    }
+    return callback(new Error(`CORS origin '${origin}' not allowed by server configuration.`));
+  },
+  credentials: true
+}));
 app.use(express.json());
 
 if (process.env.NODE_ENV === 'development') {
@@ -22,12 +38,13 @@ if (process.env.NODE_ENV === 'development') {
 import path from 'path';
 app.use('/uploads', express.static(path.join(process.cwd(), 'public', 'uploads')));
 
+// Health check route
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
+
 // Apply general rate limiter to all API routes
 app.use('/api', generalLimiter);
-
-app.get('/api/health', (req, res) => {
-  res.status(200).json({ success: true, data: { status: 'ok' }, message: 'Server is running' });
-});
 
 // Mount routes
 app.use('/api', apiRoutes);

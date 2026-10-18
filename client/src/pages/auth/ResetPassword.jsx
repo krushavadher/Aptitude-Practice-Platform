@@ -7,6 +7,7 @@ import { GlassCard } from '../../components/common/GlassCard';
 import { Input } from '../../components/common/Form';
 import { Button } from '../../components/common/Button';
 import { AlertCircle, CheckCircle } from 'lucide-react';
+import { authApi } from '../../api';
 
 const resetPasswordSchema = z.object({
   password: z.string().min(8, 'Password must be at least 8 characters'),
@@ -30,18 +31,7 @@ export default function ResetPassword() {
     setServerError('');
     setSuccessMessage('');
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/auth/reset-password/${token}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ password: data.password }),
-      });
-
-      const result = await response.json();
-      if (!response.ok) {
-        throw new Error(result.message || 'Something went wrong');
-      }
+      await authApi.resetPassword(token, { password: data.password });
 
       setSuccessMessage('Password reset successfully! You can now login.');
       setTimeout(() => {

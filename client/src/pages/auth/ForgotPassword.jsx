@@ -9,6 +9,8 @@ import { Button } from '../../components/common/Button';
 import { AlertCircle, CheckCircle } from 'lucide-react';
 
 
+import { authApi } from '../../api';
+
 const forgotPasswordSchema = z.object({
   email: z.string().email('Invalid email address'),
 });
@@ -27,19 +29,7 @@ export default function ForgotPassword() {
     setSuccessMessage('');
     setResetLink('');
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/auth/forgot-password`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      const result = await response.json();
-      if (!response.ok) {
-        throw new Error(result.message || 'Something went wrong');
-      }
-
+      const result = await authApi.forgotPassword(data);
       setSuccessMessage('Password reset email sent!');
       if (result.resetUrl) {
         setResetLink(result.resetUrl);

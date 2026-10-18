@@ -87,7 +87,10 @@ export const forgotPassword = async (email) => {
   await user.save();
 
   // Create reset url
-  const resetUrl = `${process.env.CLIENT_URL || 'http://localhost:5173'}/reset-password/${resetToken}`;
+  const primaryClientUrl = process.env.CLIENT_URL
+    ? process.env.CLIENT_URL.split(',')[0].trim()
+    : 'http://localhost:5173';
+  const resetUrl = `${primaryClientUrl}/reset-password/${resetToken}`;
 
   const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
 
